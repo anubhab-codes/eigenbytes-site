@@ -1,6 +1,6 @@
 ---
 
-title: Service Types: ClusterIP vs NodePort
+title: "Service Types: ClusterIP vs NodePort"
 toc:
 max_depth: 2
 ------------
