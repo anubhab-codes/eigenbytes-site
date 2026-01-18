@@ -1,6 +1,7 @@
 ---
 
 title: What a Pod Is (and Is Not)
+sidebar_position: 1
 toc:
 max_depth: 2
 ------------
