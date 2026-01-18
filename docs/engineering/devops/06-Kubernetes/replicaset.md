@@ -1,6 +1,6 @@
 ---
 
-title: ReplicaSet: Why You Rarely Create It Directly
+title: "ReplicaSet: Why You Rarely Create It Directly"
 toc:
 max_depth: 2
 ------------
