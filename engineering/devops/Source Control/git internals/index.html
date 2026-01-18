@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-engineering docs-version-current docs-doc-page docs-doc-id-devops/Source Control/git internals" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Git Internals | AG</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://eigenbytes.com/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://eigenbytes.com/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://eigenbytes.com/engineering/devops/Source Control/git internals"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-engineering-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-engineering-current"><meta data-rh="true" property="og:title" content="Git Internals | AG"><meta data-rh="true" name="description" content="This article explains Git internals with one goal:"><meta data-rh="true" property="og:description" content="This article explains Git internals with one goal:"><link data-rh="true" rel="icon" href="/img/eigenbytes-favicon-dark.svg" media="(prefers-color-scheme: dark)"><link data-rh="true" rel="icon" href="/img/eigenbytes-favicon.svg"><link data-rh="true" rel="canonical" href="https://eigenbytes.com/engineering/devops/Source Control/git internals"><link data-rh="true" rel="alternate" href="https://eigenbytes.com/engineering/devops/Source Control/git internals" hreflang="en"><link data-rh="true" rel="alternate" href="https://eigenbytes.com/engineering/devops/Source Control/git internals" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DevOps","item":"https://eigenbytes.com/engineering/devops/"},{"@type":"ListItem","position":2,"name":"Git Internals","item":"https://eigenbytes.com/engineering/devops/Source Control/git internals"}]}</script><link rel="stylesheet" href="/assets/css/styles.95d2d549.css">
+<script src="/assets/js/runtime~main.6c8a9d70.js" defer="defer"></script>
+<script src="/assets/js/main.fcda12f9.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><b class="navbar__title text--truncate">Home</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/engineering">Engineering</a><a class="navbar__item navbar__link" href="/publications">Publications</a><a class="navbar__item navbar__link" href="/resume">Resume</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/anubhab-codes" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link header-github-link"></a><a href="https://www.linkedin.com/in/anubhab-ghosh/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link header-linkedin-link"></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/engineering/"><span title="Engineering" class="linkLabel_WmDU">Engineering</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/engineering/devops/"><span title="DevOps" class="categoryLinkLabel_W154">DevOps</span></a><button aria-label="Collapse sidebar category &#x27;DevOps&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/Introduction/why-devops"><span title="Introduction" class="categoryLinkLabel_W154">Introduction</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/Linux/linux-commands"><span title="Linux" class="categoryLinkLabel_W154">Linux</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/Networking/dns"><span title="Networking" class="categoryLinkLabel_W154">Networking</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/engineering/devops/Source Control/what-is-git"><span title="Source Control" class="categoryLinkLabel_W154">Source Control</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/engineering/devops/Source Control/what-is-git"><span title="What is Git?" class="linkLabel_WmDU">What is Git?</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/engineering/devops/Source Control/working locally with git"><span title="Working locally with git" class="linkLabel_WmDU">Working locally with git</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/engineering/devops/Source Control/branching in git"><span title="Branching in git" class="linkLabel_WmDU">Branching in git</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/engineering/devops/Source Control/Working with Remote Repositories"><span title="Working with Remote Repositories" class="linkLabel_WmDU">Working with Remote Repositories</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/engineering/devops/Source Control/Working with GitHub and Pull Requests"><span title="Working with GitHub and Pull Requests" class="linkLabel_WmDU">Working with GitHub and Pull Requests</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/engineering/devops/Source Control/git internals"><span title="Git Internals" class="linkLabel_WmDU">Git Internals</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/docker/docker-introduction"><span title="docker" class="categoryLinkLabel_W154">docker</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/Kubernetes/what-a-pod-is"><span title="Kubernetes" class="categoryLinkLabel_W154">Kubernetes</span></a></div></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/engineering/devops/"><span>DevOps</span></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Source Control</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Git Internals</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Git Internals (How Git Works Under the Hood)</h1></header>
+<p>This article explains Git internals with one goal:
+make Git predictable.</p>
+<p>You are not expected to memorize commands or file paths.
+You are expected to understand how Git <em>thinks</em>.</p>
+<p>Once this clicks, merge, rebase, reset, and recovery stop feeling scary.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-git-directory">The <code>.git</code> directory<a href="#the-git-directory" class="hash-link" aria-label="Direct link to the-git-directory" title="Direct link to the-git-directory" translate="no">​</a></h2>
+<p>The <code>.git</code> directory is the Git repository.
+Everything Git knows about your project lives here.</p>
+<p>Your working directory contains files.
+The <code>.git</code> directory contains <em>history</em>.</p>
+<p>If <code>.git</code> is deleted:</p>
+<ul>
+<li class="">all commits are lost</li>
+<li class="">all branches are lost</li>
+<li class="">Git cannot recover history</li>
+</ul>
+<p>Your files may still exist,
+but Git tracking is permanently gone.</p>
+<p>Important contents inside <code>.git</code>:</p>
+<ul>
+<li class=""><code>objects/</code> → actual data</li>
+<li class=""><code>refs/</code> → branch pointers</li>
+<li class=""><code>HEAD</code> → current position</li>
+<li class=""><code>index</code> → staging area</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="git-objects-how-git-stores-data">Git objects: how Git stores data<a href="#git-objects-how-git-stores-data" class="hash-link" aria-label="Direct link to Git objects: how Git stores data" title="Direct link to Git objects: how Git stores data" translate="no">​</a></h2>
+<p>Git stores everything as objects.
+Objects are immutable.</p>
+<p>This means:</p>
+<ul>
+<li class="">objects are never modified</li>
+<li class="">new objects are created instead</li>
+</ul>
+<p>There are three core object types.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="blob-objects-file-content">Blob objects (file content)<a href="#blob-objects-file-content" class="hash-link" aria-label="Direct link to Blob objects (file content)" title="Direct link to Blob objects (file content)" translate="no">​</a></h3>
+<p>A blob stores <em>only file content</em>.</p>
+<p>It does not store:</p>
+<ul>
+<li class="">file name</li>
+<li class="">directory location</li>
+<li class="">permissions</li>
+</ul>
+<p>If two files have identical content,
+Git stores only one blob.</p>
+<p>This is why Git is space efficient.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="tree-objects-directory-structure">Tree objects (directory structure)<a href="#tree-objects-directory-structure" class="hash-link" aria-label="Direct link to Tree objects (directory structure)" title="Direct link to Tree objects (directory structure)" translate="no">​</a></h3>
+<p>A tree represents a directory.</p>
+<p>A tree maps:</p>
+<ul>
+<li class="">file names → blob objects</li>
+<li class="">subdirectories → other tree objects</li>
+</ul>
+<p>Trees describe <em>structure</em>.
+Blobs describe <em>content</em>.</p>
+<p>Together, they represent a snapshot.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="commit-objects-snapshots">Commit objects (snapshots)<a href="#commit-objects-snapshots" class="hash-link" aria-label="Direct link to Commit objects (snapshots)" title="Direct link to Commit objects (snapshots)" translate="no">​</a></h3>
+<p>A commit object represents a snapshot in time.</p>
+<p>A commit contains:</p>
+<ul>
+<li class="">a pointer to a tree (the snapshot)</li>
+<li class="">parent commit(s)</li>
+<li class="">author and committer information</li>
+<li class="">commit message</li>
+</ul>
+<p>A commit does not store files.
+It points to trees, which point to blobs.</p>
+<p>This indirection is intentional.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-commits-are-immutable">Why commits are immutable<a href="#why-commits-are-immutable" class="hash-link" aria-label="Direct link to Why commits are immutable" title="Direct link to Why commits are immutable" translate="no">​</a></h2>
+<p>Every Git object is identified by a hash.
+The hash is calculated from the object content.</p>
+<p>If anything inside the object changes:</p>
+<ul>
+<li class="">the hash changes</li>
+<li class="">Git treats it as a new object</li>
+</ul>
+<p>This guarantees:</p>
+<ul>
+<li class="">history cannot be silently modified</li>
+<li class="">corruption is detectable</li>
+<li class="">commits are trustworthy</li>
+</ul>
+<p>This is the foundation of Git safety.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="branches-just-pointers">Branches: just pointers<a href="#branches-just-pointers" class="hash-link" aria-label="Direct link to Branches: just pointers" title="Direct link to Branches: just pointers" translate="no">​</a></h2>
+<p>A branch is <em>not</em> a copy of code.
+A branch is a pointer to a commit.</p>
+<p>When you create a branch:</p>
+<ul>
+<li class="">no files are duplicated</li>
+<li class="">no commits are copied</li>
+<li class="">only a pointer is created</li>
+</ul>
+<p>When you commit:</p>
+<ul>
+<li class="">Git creates a new commit object</li>
+<li class="">the current branch pointer moves forward</li>
+</ul>
+<p>Other branches are unaffected.</p>
+<p>This is why branches are cheap and fast.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="head-where-you-are-right-now">HEAD: where you are right now<a href="#head-where-you-are-right-now" class="hash-link" aria-label="Direct link to HEAD: where you are right now" title="Direct link to HEAD: where you are right now" translate="no">​</a></h2>
+<p><code>HEAD</code> represents your current position.</p>
+<p>Usually:</p>
+<ul>
+<li class=""><code>HEAD</code> → branch → commit</li>
+</ul>
+<p>This means:</p>
+<ul>
+<li class="">commits move the branch</li>
+<li class="">HEAD follows the branch</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="detached-head-explained">Detached HEAD explained<a href="#detached-head-explained" class="hash-link" aria-label="Direct link to Detached HEAD explained" title="Direct link to Detached HEAD explained" translate="no">​</a></h2>
+<p>Detached HEAD means:</p>
+<ul>
+<li class="">HEAD points directly to a commit</li>
+<li class="">no branch points to that commit</li>
+</ul>
+<p>You can:</p>
+<ul>
+<li class="">inspect files</li>
+<li class="">run builds</li>
+<li class="">experiment safely</li>
+</ul>
+<p>But:</p>
+<ul>
+<li class="">new commits will be lost unless you create a branch</li>
+</ul>
+<p>Detached HEAD is safe for inspection,
+not for long-term work.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-staging-area-index">The staging area (index)<a href="#the-staging-area-index" class="hash-link" aria-label="Direct link to The staging area (index)" title="Direct link to The staging area (index)" translate="no">​</a></h2>
+<p>The staging area is stored in <code>.git/index</code>.
+It sits between working directory and repository.</p>
+<p>The staging area decides:</p>
+<ul>
+<li class="">what goes into the next commit</li>
+<li class="">what stays out</li>
+</ul>
+<p>This allows:</p>
+<ul>
+<li class="">partial commits</li>
+<li class="">clean commit history</li>
+<li class="">intentional changes</li>
+</ul>
+<p>Only staged content is committed.
+This is why <code>git add</code> exists.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-three-git-areas-important">The three Git areas (important)<a href="#the-three-git-areas-important" class="hash-link" aria-label="Direct link to The three Git areas (important)" title="Direct link to The three Git areas (important)" translate="no">​</a></h2>
+<p>Git always works with three areas:</p>
+<ol>
+<li class="">
+<p>Working directory<br>
+<!-- -->Files you edit.</p>
+</li>
+<li class="">
+<p>Staging area (index)<br>
+<!-- -->Files prepared for commit.</p>
+</li>
+<li class="">
+<p>Repository<br>
+<!-- -->Committed history.</p>
+</li>
+</ol>
+<p>Commands move data between these areas.
+Understanding this removes confusion.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-git-commit-really-does">What <code>git commit</code> really does<a href="#what-git-commit-really-does" class="hash-link" aria-label="Direct link to what-git-commit-really-does" title="Direct link to what-git-commit-really-does" translate="no">​</a></h2>
+<p>When you run <code>git commit</code>:</p>
+<ol>
+<li class="">Git reads the staging area</li>
+<li class="">Git creates blob objects if needed</li>
+<li class="">Git creates tree objects</li>
+<li class="">Git creates a commit object</li>
+<li class="">Git moves the branch pointer</li>
+</ol>
+<p>Nothing is overwritten.
+Everything is additive.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-rebase-rewrites-history">Why rebase rewrites history<a href="#why-rebase-rewrites-history" class="hash-link" aria-label="Direct link to Why rebase rewrites history" title="Direct link to Why rebase rewrites history" translate="no">​</a></h2>
+<p>Rebase does <em>not</em> move commits.
+It creates new commits.</p>
+<p>During rebase:</p>
+<ul>
+<li class="">original commits are abandoned</li>
+<li class="">new commits are created with new hashes</li>
+<li class="">branch pointer moves to new commits</li>
+</ul>
+<p>Old commits still exist temporarily,
+but become unreachable.</p>
+<p>This is why rebasing shared branches is dangerous.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-merge-is-safe">Why merge is safe<a href="#why-merge-is-safe" class="hash-link" aria-label="Direct link to Why merge is safe" title="Direct link to Why merge is safe" translate="no">​</a></h2>
+<p>A merge commit has multiple parents.</p>
+<p>This records:</p>
+<ul>
+<li class="">both histories</li>
+<li class="">where they joined</li>
+</ul>
+<p>Nothing is rewritten.
+No commit hashes change.</p>
+<p>Merge preserves reality.
+Rebase rewrites the story.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-git-can-recover-lost-commits">Why Git can recover lost commits<a href="#why-git-can-recover-lost-commits" class="hash-link" aria-label="Direct link to Why Git can recover lost commits" title="Direct link to Why Git can recover lost commits" translate="no">​</a></h2>
+<p>Git does not immediately delete objects.</p>
+<p>Unreachable commits remain until:</p>
+<ul>
+<li class="">garbage collection runs</li>
+<li class="">retention period expires</li>
+</ul>
+<p>This is why:</p>
+<ul>
+<li class=""><code>git reflog</code> can recover mistakes</li>
+<li class="">accidental resets are often reversible</li>
+</ul>
+<p>Git prefers safety over cleanup.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-git-is-fast">Why Git is fast<a href="#why-git-is-fast" class="hash-link" aria-label="Direct link to Why Git is fast" title="Direct link to Why Git is fast" translate="no">​</a></h2>
+<p>Git is fast because:</p>
+<ul>
+<li class="">operations are local</li>
+<li class="">objects are content-addressed</li>
+<li class="">history is immutable</li>
+</ul>
+<p>Most commands never touch the network.</p>
+<p>This is why Git scales well.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-internals-matter">Why internals matter<a href="#why-internals-matter" class="hash-link" aria-label="Direct link to Why internals matter" title="Direct link to Why internals matter" translate="no">​</a></h2>
+<p>Understanding internals helps you:</p>
+<ul>
+<li class="">predict Git behavior</li>
+<li class="">choose merge vs rebase correctly</li>
+<li class="">recover from mistakes calmly</li>
+<li class="">stop guessing</li>
+</ul>
+<p>Git is not complex.
+It is strict.</p>
+<p>Once the model is clear,
+Git becomes boring — and that is good.</p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/engineering/devops/Source Control/Working with GitHub and Pull Requests"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Working with GitHub and Pull Requests</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/engineering/devops/docker/docker-introduction"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">What is Docker?</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#the-git-directory" class="table-of-contents__link toc-highlight">The <code>.git</code> directory</a></li><li><a href="#git-objects-how-git-stores-data" class="table-of-contents__link toc-highlight">Git objects: how Git stores data</a><ul><li><a href="#blob-objects-file-content" class="table-of-contents__link toc-highlight">Blob objects (file content)</a></li><li><a href="#tree-objects-directory-structure" class="table-of-contents__link toc-highlight">Tree objects (directory structure)</a></li><li><a href="#commit-objects-snapshots" class="table-of-contents__link toc-highlight">Commit objects (snapshots)</a></li></ul></li><li><a href="#why-commits-are-immutable" class="table-of-contents__link toc-highlight">Why commits are immutable</a></li><li><a href="#branches-just-pointers" class="table-of-contents__link toc-highlight">Branches: just pointers</a></li><li><a href="#head-where-you-are-right-now" class="table-of-contents__link toc-highlight">HEAD: where you are right now</a></li><li><a href="#detached-head-explained" class="table-of-contents__link toc-highlight">Detached HEAD explained</a></li><li><a href="#the-staging-area-index" class="table-of-contents__link toc-highlight">The staging area (index)</a></li><li><a href="#the-three-git-areas-important" class="table-of-contents__link toc-highlight">The three Git areas (important)</a></li><li><a href="#what-git-commit-really-does" class="table-of-contents__link toc-highlight">What <code>git commit</code> really does</a></li><li><a href="#why-rebase-rewrites-history" class="table-of-contents__link toc-highlight">Why rebase rewrites history</a></li><li><a href="#why-merge-is-safe" class="table-of-contents__link toc-highlight">Why merge is safe</a></li><li><a href="#why-git-can-recover-lost-commits" class="table-of-contents__link toc-highlight">Why Git can recover lost commits</a></li><li><a href="#why-git-is-fast" class="table-of-contents__link toc-highlight">Why Git is fast</a></li><li><a href="#why-internals-matter" class="table-of-contents__link toc-highlight">Why internals matter</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Site</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/engineering">Engineering</a></li><li class="footer__item"><a class="footer__link-item" href="/publications">Publications</a></li><li class="footer__item"><a class="footer__link-item" href="/resume">Resume</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/anubhab-codes" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://www.linkedin.com/in/anubhab-ghosh/" target="_blank" rel="noopener noreferrer" class="footer__link-item">LinkedIn<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Anubhab Ghosh.</div></div></div></footer></div>
+</body>
+</html>
