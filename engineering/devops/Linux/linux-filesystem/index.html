@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-engineering docs-version-current docs-doc-page docs-doc-id-devops/Linux/linux-filesystem" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Linux File system | AG</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://eigenbytes.com/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://eigenbytes.com/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://eigenbytes.com/engineering/devops/Linux/linux-filesystem"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-engineering-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-engineering-current"><meta data-rh="true" property="og:title" content="Linux File system | AG"><meta data-rh="true" name="description" content="How John Learns Why Everything Lives Where It Does"><meta data-rh="true" property="og:description" content="How John Learns Why Everything Lives Where It Does"><link data-rh="true" rel="icon" href="/img/eigenbytes-favicon-dark.svg" media="(prefers-color-scheme: dark)"><link data-rh="true" rel="icon" href="/img/eigenbytes-favicon.svg"><link data-rh="true" rel="canonical" href="https://eigenbytes.com/engineering/devops/Linux/linux-filesystem"><link data-rh="true" rel="alternate" href="https://eigenbytes.com/engineering/devops/Linux/linux-filesystem" hreflang="en"><link data-rh="true" rel="alternate" href="https://eigenbytes.com/engineering/devops/Linux/linux-filesystem" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DevOps","item":"https://eigenbytes.com/engineering/devops/"},{"@type":"ListItem","position":2,"name":"Linux File system","item":"https://eigenbytes.com/engineering/devops/Linux/linux-filesystem"}]}</script><link rel="stylesheet" href="/assets/css/styles.95d2d549.css">
+<script src="/assets/js/runtime~main.c1f4437c.js" defer="defer"></script>
+<script src="/assets/js/main.c64552c3.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><b class="navbar__title text--truncate">Home</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/engineering">Engineering</a><a class="navbar__item navbar__link" href="/publications">Publications</a><a class="navbar__item navbar__link" href="/resume">Resume</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/anubhab-codes" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link header-github-link"></a><a href="https://www.linkedin.com/in/anubhab-ghosh/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link header-linkedin-link"></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/engineering/"><span title="Engineering" class="linkLabel_WmDU">Engineering</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/engineering/devops/"><span title="DevOps" class="categoryLinkLabel_W154">DevOps</span></a><button aria-label="Collapse sidebar category &#x27;DevOps&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/Introduction/why-devops"><span title="Introduction" class="categoryLinkLabel_W154">Introduction</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/engineering/devops/Linux/linux-commands"><span title="Linux" class="categoryLinkLabel_W154">Linux</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/engineering/devops/Linux/linux-commands"><span title="Functional use cases" class="linkLabel_WmDU">Functional use cases</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/engineering/devops/Linux/linux-filesystem"><span title="Linux File system" class="linkLabel_WmDU">Linux File system</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/engineering/devops/Linux/linux-process-signal-ports"><span title="Process, Signals and Ports" class="linkLabel_WmDU">Process, Signals and Ports</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/engineering/devops/Linux/user-access-in-linux-servers"><span title="User Management in Linux Servers" class="linkLabel_WmDU">User Management in Linux Servers</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/Networking/dns"><span title="Networking" class="categoryLinkLabel_W154">Networking</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/version control system/what-is-git"><span title="version control system" class="categoryLinkLabel_W154">version control system</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/docker/docker-introduction"><span title="docker" class="categoryLinkLabel_W154">docker</span></a></div></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/engineering/devops/"><span>DevOps</span></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Linux</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Linux File system</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Linux Filesystem Layout</h1></header>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-john-learns-why-everything-lives-where-it-does">How John Learns Why Everything Lives Where It Does<a href="#how-john-learns-why-everything-lives-where-it-does" class="hash-link" aria-label="Direct link to How John Learns Why Everything Lives Where It Does" title="Direct link to How John Learns Why Everything Lives Where It Does" translate="no">​</a></h2>
+<p>John is now comfortable logging into Linux. He can run commands, edit files, and start services.
+But one question keeps coming up:</p>
+<blockquote>
+<p>“Where should things actually go?”</p>
+</blockquote>
+<p>Linux does not place files randomly. The filesystem layout exists to solve real operational problems.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="john-explores-the-root-of-the-filesystem">John explores the root of the filesystem<a href="#john-explores-the-root-of-the-filesystem" class="hash-link" aria-label="Direct link to John explores the root of the filesystem" title="Direct link to John explores the root of the filesystem" translate="no">​</a></h2>
+<p>John starts at the top:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">ls /</span><br></span></code></pre></div></div>
+<p>He sees directories like <code>/bin</code>, <code>/etc</code>, <code>/var</code>, <code>/opt</code>, <code>/home</code>, <code>/tmp</code>.</p>
+<p>At first, this looks arbitrary. It is not.</p>
+<p>Linux follows a standard layout so that:</p>
+<ul>
+<li class="">admins know where to look</li>
+<li class="">tools know where to read from</li>
+<li class="">automation behaves consistently across systems</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="home-where-humans-live"><code>/home</code>: where humans live<a href="#home-where-humans-live" class="hash-link" aria-label="Direct link to home-where-humans-live" title="Direct link to home-where-humans-live" translate="no">​</a></h2>
+<p>John checks:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">ls /home</span><br></span></code></pre></div></div>
+<p>He sees his own directory:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">/home/john</span><br></span></code></pre></div></div>
+<p>This directory exists because:</p>
+<ul>
+<li class="">each user needs a private workspace</li>
+<li class="">permissions isolate users from each other</li>
+<li class="">backups can target user data easily</li>
+</ul>
+<p>John creates a file:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">touch /home/john/test.txt</span><br></span></code></pre></div></div>
+<p>Linux allows this because John owns his home directory.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="root-why-john-was-denied-earlier"><code>/root</code>: why John was denied earlier<a href="#root-why-john-was-denied-earlier" class="hash-link" aria-label="Direct link to root-why-john-was-denied-earlier" title="Direct link to root-why-john-was-denied-earlier" translate="no">​</a></h2>
+<p>Earlier, John tried:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">ls /root</span><br></span></code></pre></div></div>
+<p>and got “permission denied”.</p>
+<p>Now it makes sense.</p>
+<p><code>/root</code> is:</p>
+<ul>
+<li class="">the home directory of the <code>root</code> user</li>
+<li class="">intentionally separate from <code>/home</code></li>
+<li class="">protected from regular users</li>
+</ul>
+<p>Root is a user, not magic. It just has a different home.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="bin-and-sbin-basic-commands-live-here"><code>/bin</code> and <code>/sbin</code>: basic commands live here<a href="#bin-and-sbin-basic-commands-live-here" class="hash-link" aria-label="Direct link to bin-and-sbin-basic-commands-live-here" title="Direct link to bin-and-sbin-basic-commands-live-here" translate="no">​</a></h2>
+<p>John wonders where commands like <code>ls</code> actually come from.</p>
+<p>He checks:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">which ls</span><br></span></code></pre></div></div>
+<p>Output:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">/bin/ls</span><br></span></code></pre></div></div>
+<p>This tells him:</p>
+<ul>
+<li class=""><code>/bin</code> contains essential user commands</li>
+<li class="">these commands must be available even in recovery mode</li>
+</ul>
+<p>Similarly:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">which ip</span><br></span></code></pre></div></div>
+<p>might point to:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">/sbin/ip</span><br></span></code></pre></div></div>
+<p><code>/sbin</code> contains system-level commands meant for administrators.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="etc-configuration-lives-here-and-only-here"><code>/etc</code>: configuration lives here (and only here)<a href="#etc-configuration-lives-here-and-only-here" class="hash-link" aria-label="Direct link to etc-configuration-lives-here-and-only-here" title="Direct link to etc-configuration-lives-here-and-only-here" translate="no">​</a></h2>
+<p>John edits a service file earlier in <code>/etc/systemd/system</code>.
+Now he understands why.</p>
+<p><code>/etc</code> exists for <strong>configuration only</strong>.</p>
+<p>John lists it:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">ls /etc</span><br></span></code></pre></div></div>
+<p>He sees:</p>
+<ul>
+<li class="">service configs</li>
+<li class="">user configs</li>
+<li class="">network configs</li>
+</ul>
+<p>Important rule:</p>
+<blockquote>
+<p>Executables do not live in <code>/etc</code>.
+Data does not live in <code>/etc</code>.
+Only configuration.</p>
+</blockquote>
+<p>This separation allows:</p>
+<ul>
+<li class="">safe upgrades</li>
+<li class="">easy backups</li>
+<li class="">predictable automation</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="var-data-that-changes-while-the-system-runs"><code>/var</code>: data that changes while the system runs<a href="#var-data-that-changes-while-the-system-runs" class="hash-link" aria-label="Direct link to var-data-that-changes-while-the-system-runs" title="Direct link to var-data-that-changes-while-the-system-runs" translate="no">​</a></h2>
+<p>John notices logs are not in <code>/etc</code>.</p>
+<p>He checks:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">ls /var</span><br></span></code></pre></div></div>
+<p>He sees directories like:</p>
+<ul>
+<li class=""><code>/var/log</code></li>
+<li class=""><code>/var/lib</code></li>
+<li class=""><code>/var/tmp</code></li>
+</ul>
+<p>He opens logs:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">ls /var/log</span><br></span></code></pre></div></div>
+<p>This explains why:</p>
+<ul>
+<li class="">logs grow over time</li>
+<li class="">disk-full issues often come from <code>/var</code></li>
+<li class=""><code>/var</code> is monitored closely in production</li>
+</ul>
+<p>Applications write changing data here, not in <code>/etc</code>.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="tmp-temporary-means-temporary"><code>/tmp</code>: temporary means temporary<a href="#tmp-temporary-means-temporary" class="hash-link" aria-label="Direct link to tmp-temporary-means-temporary" title="Direct link to tmp-temporary-means-temporary" translate="no">​</a></h2>
+<p>John creates a file:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">touch /tmp/test.tmp</span><br></span></code></pre></div></div>
+<p>It works.
+But after a reboot, the file is gone.</p>
+<p>This teaches an important rule:</p>
+<blockquote>
+<p><code>/tmp</code> is for short-lived files only.</p>
+</blockquote>
+<p>System cleanups and reboots can wipe it at any time.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="opt-where-applications-belong"><code>/opt</code>: where applications belong<a href="#opt-where-applications-belong" class="hash-link" aria-label="Direct link to opt-where-applications-belong" title="Direct link to opt-where-applications-belong" translate="no">​</a></h2>
+<p>John earlier placed his app in <code>/opt/my_app</code>.</p>
+<p>Now he understands why.</p>
+<p><code>/opt</code> exists for:</p>
+<ul>
+<li class="">optional software</li>
+<li class="">third-party applications</li>
+<li class="">custom deployments</li>
+</ul>
+<p>This keeps applications separate from:</p>
+<ul>
+<li class="">OS binaries (<code>/bin</code>)</li>
+<li class="">configs (<code>/etc</code>)</li>
+<li class="">logs (<code>/var/log</code>)</li>
+</ul>
+<p>In production systems, this separation prevents accidental overwrites during OS upgrades.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="usr-os-installed-software"><code>/usr</code>: OS-installed software<a href="#usr-os-installed-software" class="hash-link" aria-label="Direct link to usr-os-installed-software" title="Direct link to usr-os-installed-software" translate="no">​</a></h2>
+<p>John installs a package:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">yum install python3</span><br></span></code></pre></div></div>
+<p>He checks:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">which python3</span><br></span></code></pre></div></div>
+<p>Output:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">/usr/bin/python3</span><br></span></code></pre></div></div>
+<p>This tells him:</p>
+<ul>
+<li class=""><code>/usr</code> holds OS-managed software</li>
+<li class="">package managers control this space</li>
+<li class="">admins should not manually edit files here</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-this-layout-matters-in-real-systems">Why this layout matters in real systems<a href="#why-this-layout-matters-in-real-systems" class="hash-link" aria-label="Direct link to Why this layout matters in real systems" title="Direct link to Why this layout matters in real systems" translate="no">​</a></h2>
+<p>Later, John joins a production incident call.</p>
+<p>The service is down.</p>
+<p>The team asks:</p>
+<ul>
+<li class="">“Check logs” → <code>/var/log</code></li>
+<li class="">“Check config” → <code>/etc</code></li>
+<li class="">“Check app binaries” → <code>/opt</code></li>
+<li class="">“Check user scripts” → <code>/home</code></li>
+</ul>
+<p>No guessing. Everyone knows where to look.</p>
+<p>That is the real value of the filesystem layout.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="johns-final-mental-model">John’s final mental model<a href="#johns-final-mental-model" class="hash-link" aria-label="Direct link to John’s final mental model" title="Direct link to John’s final mental model" translate="no">​</a></h2>
+<p>John now thinks about Linux like this:</p>
+<ul>
+<li class=""><code>/home</code> → humans</li>
+<li class=""><code>/root</code> → superuser</li>
+<li class=""><code>/bin</code>, <code>/sbin</code> → core commands</li>
+<li class=""><code>/etc</code> → configuration</li>
+<li class=""><code>/var</code> → changing data</li>
+<li class=""><code>/opt</code> → applications</li>
+<li class=""><code>/tmp</code> → temporary files</li>
+<li class=""><code>/usr</code> → OS-managed software</li>
+</ul>
+<p>Linux did not choose this structure randomly.
+It chose it so <strong>humans and automation could work together without confusion</strong>.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="final-takeaway">Final takeaway<a href="#final-takeaway" class="hash-link" aria-label="Direct link to Final takeaway" title="Direct link to Final takeaway" translate="no">​</a></h2>
+<p>Understanding the Linux filesystem is not about memorizing directories.
+It is about knowing <strong>where responsibility lives</strong>.</p>
+<p>Once John understands this, production systems stop feeling chaotic and start feeling organized.</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-tags-row"><div class="col"><b>Tags:</b><ul class="tags_jXut padding--none margin-left--sm"><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/engineering/tags/devops">devops</a></li></ul></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/engineering/devops/Linux/linux-commands"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Functional use cases</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/engineering/devops/Linux/linux-process-signal-ports"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Process, Signals and Ports</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#how-john-learns-why-everything-lives-where-it-does" class="table-of-contents__link toc-highlight">How John Learns Why Everything Lives Where It Does</a></li><li><a href="#john-explores-the-root-of-the-filesystem" class="table-of-contents__link toc-highlight">John explores the root of the filesystem</a></li><li><a href="#home-where-humans-live" class="table-of-contents__link toc-highlight"><code>/home</code>: where humans live</a></li><li><a href="#root-why-john-was-denied-earlier" class="table-of-contents__link toc-highlight"><code>/root</code>: why John was denied earlier</a></li><li><a href="#bin-and-sbin-basic-commands-live-here" class="table-of-contents__link toc-highlight"><code>/bin</code> and <code>/sbin</code>: basic commands live here</a></li><li><a href="#etc-configuration-lives-here-and-only-here" class="table-of-contents__link toc-highlight"><code>/etc</code>: configuration lives here (and only here)</a></li><li><a href="#var-data-that-changes-while-the-system-runs" class="table-of-contents__link toc-highlight"><code>/var</code>: data that changes while the system runs</a></li><li><a href="#tmp-temporary-means-temporary" class="table-of-contents__link toc-highlight"><code>/tmp</code>: temporary means temporary</a></li><li><a href="#opt-where-applications-belong" class="table-of-contents__link toc-highlight"><code>/opt</code>: where applications belong</a></li><li><a href="#usr-os-installed-software" class="table-of-contents__link toc-highlight"><code>/usr</code>: OS-installed software</a></li><li><a href="#why-this-layout-matters-in-real-systems" class="table-of-contents__link toc-highlight">Why this layout matters in real systems</a></li><li><a href="#johns-final-mental-model" class="table-of-contents__link toc-highlight">John’s final mental model</a></li><li><a href="#final-takeaway" class="table-of-contents__link toc-highlight">Final takeaway</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Site</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/engineering">Engineering</a></li><li class="footer__item"><a class="footer__link-item" href="/publications">Publications</a></li><li class="footer__item"><a class="footer__link-item" href="/resume">Resume</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/anubhab-codes" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://www.linkedin.com/in/anubhab-ghosh/" target="_blank" rel="noopener noreferrer" class="footer__link-item">LinkedIn<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Anubhab Ghosh.</div></div></div></footer></div>
+</body>
+</html>

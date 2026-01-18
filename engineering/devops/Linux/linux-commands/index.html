@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-engineering docs-version-current docs-doc-page docs-doc-id-devops/Linux/linux-commands" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.9.2">
+<title data-rh="true">Functional use cases | AG</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://eigenbytes.com/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://eigenbytes.com/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://eigenbytes.com/engineering/devops/Linux/linux-commands"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-engineering-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-engineering-current"><meta data-rh="true" property="og:title" content="Functional use cases | AG"><meta data-rh="true" name="description" content="This document introduces Linux by explaining how to reason about a Linux system, not just which commands exist."><meta data-rh="true" property="og:description" content="This document introduces Linux by explaining how to reason about a Linux system, not just which commands exist."><link data-rh="true" rel="icon" href="/img/eigenbytes-favicon-dark.svg" media="(prefers-color-scheme: dark)"><link data-rh="true" rel="icon" href="/img/eigenbytes-favicon.svg"><link data-rh="true" rel="canonical" href="https://eigenbytes.com/engineering/devops/Linux/linux-commands"><link data-rh="true" rel="alternate" href="https://eigenbytes.com/engineering/devops/Linux/linux-commands" hreflang="en"><link data-rh="true" rel="alternate" href="https://eigenbytes.com/engineering/devops/Linux/linux-commands" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"DevOps","item":"https://eigenbytes.com/engineering/devops/"},{"@type":"ListItem","position":2,"name":"Functional use cases","item":"https://eigenbytes.com/engineering/devops/Linux/linux-commands"}]}</script><link rel="stylesheet" href="/assets/css/styles.95d2d549.css">
+<script src="/assets/js/runtime~main.c1f4437c.js" defer="defer"></script>
+<script src="/assets/js/main.c64552c3.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/"><b class="navbar__title text--truncate">Home</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/engineering">Engineering</a><a class="navbar__item navbar__link" href="/publications">Publications</a><a class="navbar__item navbar__link" href="/resume">Resume</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/anubhab-codes" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link header-github-link"></a><a href="https://www.linkedin.com/in/anubhab-ghosh/" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link header-linkedin-link"></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/engineering/"><span title="Engineering" class="linkLabel_WmDU">Engineering</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--active" href="/engineering/devops/"><span title="DevOps" class="categoryLinkLabel_W154">DevOps</span></a><button aria-label="Collapse sidebar category &#x27;DevOps&#x27;" aria-expanded="true" type="button" class="clean-btn menu__caret"></button></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/Introduction/why-devops"><span title="Introduction" class="categoryLinkLabel_W154">Introduction</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/engineering/devops/Linux/linux-commands"><span title="Linux" class="categoryLinkLabel_W154">Linux</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/engineering/devops/Linux/linux-commands"><span title="Functional use cases" class="linkLabel_WmDU">Functional use cases</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/engineering/devops/Linux/linux-filesystem"><span title="Linux File system" class="linkLabel_WmDU">Linux File system</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/engineering/devops/Linux/linux-process-signal-ports"><span title="Process, Signals and Ports" class="linkLabel_WmDU">Process, Signals and Ports</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/engineering/devops/Linux/user-access-in-linux-servers"><span title="User Management in Linux Servers" class="linkLabel_WmDU">User Management in Linux Servers</span></a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/Networking/dns"><span title="Networking" class="categoryLinkLabel_W154">Networking</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/version control system/what-is-git"><span title="version control system" class="categoryLinkLabel_W154">version control system</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/engineering/devops/docker/docker-introduction"><span title="docker" class="categoryLinkLabel_W154">docker</span></a></div></li></ul></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><a class="breadcrumbs__link" href="/engineering/devops/"><span>DevOps</span></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Linux</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Functional use cases</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><header><h1>Introduction to Linux (How to Think)</h1></header>
+<p>This document introduces Linux by explaining <strong>how to reason about a Linux system</strong>, not just which commands exist.
+The goal is to help understand <em>why</em> Linux behaves the way it does, so later topics (DevOps, containers, automation) feel natural.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-linux-is-different-from-windows-the-core-idea">How Linux is different from Windows (the core idea)<a href="#how-linux-is-different-from-windows-the-core-idea" class="hash-link" aria-label="Direct link to How Linux is different from Windows (the core idea)" title="Direct link to How Linux is different from Windows (the core idea)" translate="no">​</a></h2>
+<p>Linux and Windows solve different problems.</p>
+<p>Windows was designed for <strong>individual desktop users</strong>:</p>
+<ul>
+<li class="">Strong focus on GUI</li>
+<li class="">System internals are intentionally hidden</li>
+<li class="">Manual interaction is the default</li>
+</ul>
+<p>Linux was designed for <strong>multi-user systems and servers</strong>:</p>
+<ul>
+<li class="">System internals are visible</li>
+<li class="">Everything is controlled using files and processes</li>
+<li class="">Automation is expected, not optional</li>
+</ul>
+<p>A useful mental model:</p>
+<ul>
+<li class="">Windows is like <strong>ready-made furniture</strong>: polished and convenient, but hard to modify internally.</li>
+<li class="">Linux is like <strong>Lego bricks in a workshop</strong>: smaller pieces, fully visible, and easy to assemble differently.</li>
+</ul>
+<p>This single difference explains why Linux dominates servers and DevOps.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-linux-became-the-base-for-devops-and-cloud">Why Linux became the base for DevOps and cloud<a href="#why-linux-became-the-base-for-devops-and-cloud" class="hash-link" aria-label="Direct link to Why Linux became the base for DevOps and cloud" title="Direct link to Why Linux became the base for DevOps and cloud" translate="no">​</a></h2>
+<p>Linux exposes low-level system behavior in a way automation tools can directly control.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="containers-why-linux-is-required">Containers (why Linux is required)<a href="#containers-why-linux-is-required" class="hash-link" aria-label="Direct link to Containers (why Linux is required)" title="Direct link to Containers (why Linux is required)" translate="no">​</a></h3>
+<p>Containers are not a generic technology; they depend on Linux kernel features:</p>
+<ul>
+<li class=""><strong>Namespaces</strong> isolate processes, networks, and filesystems.</li>
+<li class=""><strong>cgroups</strong> control CPU and memory usage.</li>
+<li class=""><strong>chroot</strong> limits filesystem visibility.</li>
+</ul>
+<p>Because of this:</p>
+<ul>
+<li class="">A container is a restricted Linux process.</li>
+<li class="">It is not a virtual machine.</li>
+<li class="">On Windows or macOS, Docker runs a small Linux VM in the background.</li>
+<li class="">Containers still execute on a Linux kernel.</li>
+</ul>
+<p>This is a technical dependency, not a preference.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="configuration-management-ansible">Configuration management (Ansible)<a href="#configuration-management-ansible" class="hash-link" aria-label="Direct link to Configuration management (Ansible)" title="Direct link to Configuration management (Ansible)" translate="no">​</a></h3>
+<p>Ansible assumes Linux-style systems:</p>
+<ul>
+<li class="">SSH-based remote execution</li>
+<li class="">Text configuration files</li>
+<li class="">Linux users, permissions, and package managers</li>
+</ul>
+<p>Windows support exists, but:</p>
+<ul>
+<li class="">Requires WinRM</li>
+<li class="">Uses separate modules</li>
+<li class="">Adds complexity</li>
+</ul>
+<p>Linux aligns naturally with automation, so it remains the default.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-linux-actually-means-distributions">What “Linux” actually means (distributions)<a href="#what-linux-actually-means-distributions" class="hash-link" aria-label="Direct link to What “Linux” actually means (distributions)" title="Direct link to What “Linux” actually means (distributions)" translate="no">​</a></h2>
+<p>Linux itself is only the <strong>kernel</strong>.
+A usable system is created by combining the kernel with tools, libraries, and defaults. This is called a <strong>distribution</strong>.</p>
+<p>Example:</p>
+<ul>
+<li class="">RHEL = enterprise Linux with paid support</li>
+<li class="">CentOS = community rebuild of RHEL (same structure, no support)</li>
+</ul>
+<p>Different distributions exist, but the core concepts do not change.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-you-interact-with-linux-cli-first-thinking">How you interact with Linux (CLI-first thinking)<a href="#how-you-interact-with-linux-cli-first-thinking" class="hash-link" aria-label="Direct link to How you interact with Linux (CLI-first thinking)" title="Direct link to How you interact with Linux (CLI-first thinking)" translate="no">​</a></h2>
+<p>Linux provides both GUI and CLI, but servers are <strong>CLI-only</strong>.</p>
+<p>This matters because:</p>
+<ul>
+<li class="">Scripts run CLI commands</li>
+<li class="">Automation uses CLI commands</li>
+<li class="">Troubleshooting happens via CLI</li>
+</ul>
+<p>Learning Linux means learning to <strong>reason through commands</strong>.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="shells-how-linux-interprets-commands">Shells: how Linux interprets commands<a href="#shells-how-linux-interprets-commands" class="hash-link" aria-label="Direct link to Shells: how Linux interprets commands" title="Direct link to Shells: how Linux interprets commands" translate="no">​</a></h2>
+<p>A shell is the program that reads your command and decides <strong>what to execute</strong>.</p>
+<p>Common shells:</p>
+<ul>
+<li class=""><code>sh</code> – original Bourne shell</li>
+<li class=""><code>csh</code> / <code>tcsh</code> – C-style syntax</li>
+<li class=""><code>zsh</code> – modern interactive shell</li>
+<li class=""><code>bash</code> – default on most enterprise systems</li>
+</ul>
+<p><code>bash</code> is important because it supports:</p>
+<ul>
+<li class="">Variables</li>
+<li class="">Arithmetic</li>
+<li class="">Conditions</li>
+<li class="">Loops</li>
+<li class="">Scripts</li>
+</ul>
+<p>Check which shell you are using:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">echo $SHELL</span><br></span></code></pre></div></div>
+<p>Interpretation:</p>
+<ul>
+<li class=""><code>/bin/bash</code> means Bash is processing your commands</li>
+<li class="">Scripts will behave according to Bash rules</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="understanding-the-operating-system-thinking-not-guessing">Understanding the operating system (thinking, not guessing)<a href="#understanding-the-operating-system-thinking-not-guessing" class="hash-link" aria-label="Direct link to Understanding the operating system (thinking, not guessing)" title="Direct link to Understanding the operating system (thinking, not guessing)" translate="no">​</a></h2>
+<p>Before running commands or installing software, you must know <strong>what OS you are on</strong>.
+Different OS versions mean different package managers, paths, and defaults.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="method-1-distribution-identity-most-common">Method 1: Distribution identity (most common)<a href="#method-1-distribution-identity-most-common" class="hash-link" aria-label="Direct link to Method 1: Distribution identity (most common)" title="Direct link to Method 1: Distribution identity (most common)" translate="no">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">cat /etc/os-release</span><br></span></code></pre></div></div>
+<p>This tells you:</p>
+<ul>
+<li class="">Distribution name</li>
+<li class="">Version</li>
+<li class="">Vendor</li>
+</ul>
+<p>Use this when deciding:</p>
+<ul>
+<li class="">Which package manager to use</li>
+<li class="">Which documentation applies</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="method-2-compatibility-check-practical-admin-view">Method 2: Compatibility check (practical admin view)<a href="#method-2-compatibility-check-practical-admin-view" class="hash-link" aria-label="Direct link to Method 2: Compatibility check (practical admin view)" title="Direct link to Method 2: Compatibility check (practical admin view)" translate="no">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">ls /etc/*release*</span><br></span></code></pre></div></div>
+<p>Why this exists:</p>
+<ul>
+<li class="">Many tools and scripts only check for file presence</li>
+<li class="">Legacy systems may not have <code>os-release</code></li>
+</ul>
+<p>This helps you reason about <strong>backward compatibility</strong>.</p>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="method-3-kernel-vs-os-distinction-advanced-thinking">Method 3: Kernel vs OS distinction (advanced thinking)<a href="#method-3-kernel-vs-os-distinction-advanced-thinking" class="hash-link" aria-label="Direct link to Method 3: Kernel vs OS distinction (advanced thinking)" title="Direct link to Method 3: Kernel vs OS distinction (advanced thinking)" translate="no">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">uname -a</span><br></span></code></pre></div></div>
+<p>This tells you:</p>
+<ul>
+<li class="">Kernel version</li>
+<li class="">Architecture</li>
+</ul>
+<p>Important insight:</p>
+<ul>
+<li class="">Two systems can run the same kernel</li>
+<li class="">But behave differently due to distribution-level tools</li>
+</ul>
+<p>Kernel ≠ distribution.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="core-linux-commands-mental-model-first">Core Linux commands (mental model first)<a href="#core-linux-commands-mental-model-first" class="hash-link" aria-label="Direct link to Core Linux commands (mental model first)" title="Direct link to Core Linux commands (mental model first)" translate="no">​</a></h2>
+<p>Linux commands are intentionally small and focused.</p>
+<p>Examples:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">echo Hi        # print output</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">ls             # list files</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">cd /path       # move in filesystem</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">pwd            # show current location</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">mkdir test     # create directory</span><br></span></code></pre></div></div>
+<p>Key idea:</p>
+<ul>
+<li class="">Commands do one thing</li>
+<li class="">You combine them to do complex tasks</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="files-and-directories">Files and directories<a href="#files-and-directories" class="hash-link" aria-label="Direct link to Files and directories" title="Direct link to Files and directories" translate="no">​</a></h3>
+<p>Create nested paths:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">mkdir -p /tmp/asia/india/bangalore</span><br></span></code></pre></div></div>
+<p>Remove recursively:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">rm -r old_dir</span><br></span></code></pre></div></div>
+<p>Copy directories:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">cp -r src dest</span><br></span></code></pre></div></div>
+<p>Create files:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">touch file.txt</span><br></span></code></pre></div></div>
+<p>Write content:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">cat &gt; file.txt</span><br></span></code></pre></div></div>
+<p>Read content:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">cat file.txt</span><br></span></code></pre></div></div>
+<p>Linux treats <strong>everything as files</strong>, including configuration and devices.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="editing-files-with-vi-why-it-still-exists">Editing files with vi (why it still exists)<a href="#editing-files-with-vi-why-it-still-exists" class="hash-link" aria-label="Direct link to Editing files with vi (why it still exists)" title="Direct link to Editing files with vi (why it still exists)" translate="no">​</a></h2>
+<p><code>vi</code> is always available, even on minimal servers.</p>
+<p>Understanding vi is about <strong>survivability</strong>, not preference.</p>
+<p>Basic flow:</p>
+<ul>
+<li class="">Open file → command mode</li>
+<li class="">Press <code>i</code> → insert mode</li>
+<li class="">Press <code>Esc</code> → command mode</li>
+</ul>
+<p>Common actions:</p>
+<ul>
+<li class="">Save: <code>:w</code></li>
+<li class="">Quit: <code>:q</code></li>
+<li class="">Save and quit: <code>:wq</code></li>
+<li class="">Search: <code>/word</code></li>
+</ul>
+<p>You do not need speed. You need reliability.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="users-and-permissions-how-linux-thinks-about-access">Users and permissions (how Linux thinks about access)<a href="#users-and-permissions-how-linux-thinks-about-access" class="hash-link" aria-label="Direct link to Users and permissions (how Linux thinks about access)" title="Direct link to Users and permissions (how Linux thinks about access)" translate="no">​</a></h2>
+<p>Linux separates <strong>identity</strong> from <strong>privilege</strong>.</p>
+<p>Check identity:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">whoami</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">id</span><br></span></code></pre></div></div>
+<p>Switch users:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">su</span><br></span></code></pre></div></div>
+<p>Remote login:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">ssh user@host</span><br></span></code></pre></div></div>
+<p><code>root</code> is the superuser.
+Regular users are restricted by default.</p>
+<p>Example:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">ls /root</span><br></span></code></pre></div></div>
+<p>Result:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Permission denied</span><br></span></code></pre></div></div>
+<p>With controlled privilege:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">sudo ls /root</span><br></span></code></pre></div></div>
+<p>Sudo:</p>
+<ul>
+<li class="">Temporarily elevates privilege</li>
+<li class="">Requires user authentication</li>
+<li class="">Logs every action</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="downloading-files-automation-friendly">Downloading files (automation-friendly)<a href="#downloading-files-automation-friendly" class="hash-link" aria-label="Direct link to Downloading files (automation-friendly)" title="Direct link to Downloading files (automation-friendly)" translate="no">​</a></h2>
+<p>Using curl:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">curl &lt;url&gt; -O</span><br></span></code></pre></div></div>
+<p>Using wget:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">wget &lt;url&gt; -O file_name</span><br></span></code></pre></div></div>
+<p>Both are commonly used in scripts and pipelines.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="installing-software-how-linux-decides-dependencies">Installing software (how Linux decides dependencies)<a href="#installing-software-how-linux-decides-dependencies" class="hash-link" aria-label="Direct link to Installing software (how Linux decides dependencies)" title="Direct link to Installing software (how Linux decides dependencies)" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="rpm-low-level">rpm (low-level)<a href="#rpm-low-level" class="hash-link" aria-label="Direct link to rpm (low-level)" title="Direct link to rpm (low-level)" translate="no">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">rpm -i ansible.rpm</span><br></span></code></pre></div></div>
+<ul>
+<li class="">Installs one package</li>
+<li class="">Does not resolve dependencies</li>
+</ul>
+<p>Use when:</p>
+<ul>
+<li class="">Offline installs</li>
+<li class="">Controlled environments</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="yum-high-level">yum (high-level)<a href="#yum-high-level" class="hash-link" aria-label="Direct link to yum (high-level)" title="Direct link to yum (high-level)" translate="no">​</a></h3>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">yum install ansible</span><br></span></code></pre></div></div>
+<ul>
+<li class="">Resolves dependencies</li>
+<li class="">Uses repositories</li>
+</ul>
+<p>Repositories live in:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">/etc/yum.repos.d/</span><br></span></code></pre></div></div>
+<p>Yum:</p>
+<ul>
+<li class="">Compares available versions</li>
+<li class="">Selects compatible packages</li>
+<li class="">Avoids conflicts</li>
+</ul>
+<p>Other systems use:</p>
+<ul>
+<li class=""><code>apt</code></li>
+<li class=""><code>dnf</code></li>
+<li class=""><code>zypper</code></li>
+</ul>
+<p>The idea is the same everywhere.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="services-and-systemd-process-thinking">Services and systemd (process thinking)<a href="#services-and-systemd-process-thinking" class="hash-link" aria-label="Direct link to Services and systemd (process thinking)" title="Direct link to Services and systemd (process thinking)" translate="no">​</a></h2>
+<p>Modern Linux uses <strong>systemd</strong> to manage services.</p>
+<p>Check service state:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">systemctl status my_app</span><br></span></code></pre></div></div>
+<p>Start service:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">systemctl start my_app</span><br></span></code></pre></div></div>
+<p>Older <code>service</code> command still exists but wraps <code>systemctl</code>.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="creating-a-simple-service-reasoning-example">Creating a simple service (reasoning example)<a href="#creating-a-simple-service-reasoning-example" class="hash-link" aria-label="Direct link to Creating a simple service (reasoning example)" title="Direct link to Creating a simple service (reasoning example)" translate="no">​</a></h2>
+<p>You have:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">/opt/my_app/my_app.py</span><br></span></code></pre></div></div>
+<p>Create:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">/etc/systemd/system/my_app.service</span><br></span></code></pre></div></div>
+<div class="language-ini codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-ini codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">[Unit]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Description=My Sample App</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">[Service]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">ExecStart=/usr/bin/python3 /opt/my_app/my_app.py</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Restart=always</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">[Install]</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">WantedBy=multi-user.target</span><br></span></code></pre></div></div>
+<p>Reload systemd:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">systemctl daemon-reload</span><br></span></code></pre></div></div>
+<p>Enable and start:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">systemctl enable my_app</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">systemctl start my_app</span><br></span></code></pre></div></div>
+<p>Thinking model:</p>
+<ul>
+<li class=""><code>[Unit]</code> explains <em>what</em></li>
+<li class=""><code>[Service]</code> explains <em>how</em></li>
+<li class=""><code>[Install]</code> explains <em>when</em></li>
+</ul>
+<hr>
+<p>Linux is powerful because it exposes its internals in a consistent, scriptable way.
+Once you understand how Linux thinks about identity, files, processes, and services, DevOps and cloud concepts stop feeling magical and start feeling logical.</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-tags-row"><div class="col"><b>Tags:</b><ul class="tags_jXut padding--none margin-left--sm"><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/engineering/tags/devops">devops</a></li></ul></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/engineering/devops/Introduction/why-devops"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Why DevOps?</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/engineering/devops/Linux/linux-filesystem"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Linux File system</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#how-linux-is-different-from-windows-the-core-idea" class="table-of-contents__link toc-highlight">How Linux is different from Windows (the core idea)</a></li><li><a href="#why-linux-became-the-base-for-devops-and-cloud" class="table-of-contents__link toc-highlight">Why Linux became the base for DevOps and cloud</a><ul><li><a href="#containers-why-linux-is-required" class="table-of-contents__link toc-highlight">Containers (why Linux is required)</a></li><li><a href="#configuration-management-ansible" class="table-of-contents__link toc-highlight">Configuration management (Ansible)</a></li></ul></li><li><a href="#what-linux-actually-means-distributions" class="table-of-contents__link toc-highlight">What “Linux” actually means (distributions)</a></li><li><a href="#how-you-interact-with-linux-cli-first-thinking" class="table-of-contents__link toc-highlight">How you interact with Linux (CLI-first thinking)</a></li><li><a href="#shells-how-linux-interprets-commands" class="table-of-contents__link toc-highlight">Shells: how Linux interprets commands</a></li><li><a href="#understanding-the-operating-system-thinking-not-guessing" class="table-of-contents__link toc-highlight">Understanding the operating system (thinking, not guessing)</a><ul><li><a href="#method-1-distribution-identity-most-common" class="table-of-contents__link toc-highlight">Method 1: Distribution identity (most common)</a></li><li><a href="#method-2-compatibility-check-practical-admin-view" class="table-of-contents__link toc-highlight">Method 2: Compatibility check (practical admin view)</a></li><li><a href="#method-3-kernel-vs-os-distinction-advanced-thinking" class="table-of-contents__link toc-highlight">Method 3: Kernel vs OS distinction (advanced thinking)</a></li></ul></li><li><a href="#core-linux-commands-mental-model-first" class="table-of-contents__link toc-highlight">Core Linux commands (mental model first)</a><ul><li><a href="#files-and-directories" class="table-of-contents__link toc-highlight">Files and directories</a></li></ul></li><li><a href="#editing-files-with-vi-why-it-still-exists" class="table-of-contents__link toc-highlight">Editing files with vi (why it still exists)</a></li><li><a href="#users-and-permissions-how-linux-thinks-about-access" class="table-of-contents__link toc-highlight">Users and permissions (how Linux thinks about access)</a></li><li><a href="#downloading-files-automation-friendly" class="table-of-contents__link toc-highlight">Downloading files (automation-friendly)</a></li><li><a href="#installing-software-how-linux-decides-dependencies" class="table-of-contents__link toc-highlight">Installing software (how Linux decides dependencies)</a><ul><li><a href="#rpm-low-level" class="table-of-contents__link toc-highlight">rpm (low-level)</a></li><li><a href="#yum-high-level" class="table-of-contents__link toc-highlight">yum (high-level)</a></li></ul></li><li><a href="#services-and-systemd-process-thinking" class="table-of-contents__link toc-highlight">Services and systemd (process thinking)</a></li><li><a href="#creating-a-simple-service-reasoning-example" class="table-of-contents__link toc-highlight">Creating a simple service (reasoning example)</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Site</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/engineering">Engineering</a></li><li class="footer__item"><a class="footer__link-item" href="/publications">Publications</a></li><li class="footer__item"><a class="footer__link-item" href="/resume">Resume</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/anubhab-codes" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://www.linkedin.com/in/anubhab-ghosh/" target="_blank" rel="noopener noreferrer" class="footer__link-item">LinkedIn<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Anubhab Ghosh.</div></div></div></footer></div>
+</body>
+</html>
