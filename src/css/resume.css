@@ -1,64 +1,177 @@
 /* src/css/resume.css */
-/* Resume typography tweaks for Docusaurus */
 
-:root {
-  --resume-max-width: 900px;
-}
-
-/* Keep resume readable and not "bloggy" */
-.markdown {
-  max-width: var(--resume-max-width);
+.resumePage {
+  max-width: 980px;
   margin: 0 auto;
+  padding: 1.25rem 0.25rem;
 }
 
-/* Headings */
-.markdown h1 {
-  font-size: 2.2rem;
-  line-height: 1.15;
-  margin-bottom: 0.35rem;
+.resumeHeader {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.1rem 1.1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 16px;
+  background: var(--ifm-background-surface-color);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.04);
 }
 
-.markdown h2 {
-  font-size: 1.2rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  margin-top: 1.8rem;
-  margin-bottom: 0.6rem;
+.resumeName {
+  font-size: 2.25rem;
+  line-height: 1.1;
+  margin: 0;
 }
 
-.markdown h3 {
+.resumeTitle {
   font-size: 1.05rem;
-  margin-top: 1.1rem;
-  margin-bottom: 0.35rem;
-}
-
-/* Body text */
-.markdown p {
-  font-size: 0.96rem;
-  line-height: 1.55;
-  margin: 0.55rem 0;
-}
-
-/* Lists */
-.markdown ul {
   margin-top: 0.35rem;
-  margin-bottom: 0.75rem;
-  padding-left: 1.25rem;
-}
-
-.markdown li {
-  font-size: 0.96rem;
-  line-height: 1.5;
-  margin: 0.35rem 0;
-}
-
-/* Horizontal rules: subtle separators */
-.markdown hr {
-  margin: 1.1rem 0;
-  opacity: 0.35;
-}
-
-/* Tighten bold lines like company/date blocks */
-.markdown strong {
+  color: var(--ifm-color-emphasis-700);
   font-weight: 600;
+}
+
+.resumeMeta {
+  margin-top: 0.5rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.95rem;
+}
+
+.resumeMeta .dot {
+  padding: 0 0.5rem;
+  opacity: 0.7;
+}
+
+.resumeBadges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 320px;
+}
+
+.badge {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-800);
+  white-space: nowrap;
+}
+
+.resumeSection {
+  margin-top: 1.25rem;
+  padding: 1.05rem 1.1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 16px;
+  background: var(--ifm-background-surface-color);
+}
+
+.resumeSection h2 {
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 0.75rem 0;
+}
+
+.resumeSection p {
+  margin: 0.55rem 0;
+  line-height: 1.55;
+  font-size: 0.97rem;
+}
+
+.resumeSection ul {
+  margin: 0.25rem 0 0.25rem 0;
+  padding-left: 1.2rem;
+}
+
+.resumeSection li {
+  margin: 0.4rem 0;
+  line-height: 1.5;
+  font-size: 0.97rem;
+}
+
+.resumeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem;
+  margin-top: 1.1rem;
+}
+
+.role {
+  margin-top: 0.95rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.role:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.roleTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.roleTitle {
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+.roleTime {
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.roleSub {
+  color: var(--ifm-color-emphasis-700);
+  margin-top: 0.25rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.roleNote {
+  margin-top: 0.6rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+  .resumeHeader {
+    flex-direction: column;
+  }
+  .resumeBadges {
+    justify-content: flex-start;
+    max-width: none;
+  }
+  .resumeGrid {
+    grid-template-columns: 1fr;
+  }
+  .roleTop {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .roleTime {
+    white-space: normal;
+  }
+}
+
+/* Print-friendly */
+@media print {
+  .navbar, .footer, .theme-doc-toc-desktop, .theme-doc-toc-mobile {
+    display: none !important;
+  }
+  .resumePage {
+    max-width: 100%;
+    padding: 0;
+  }
+  .resumeHeader, .resumeSection {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
 }
