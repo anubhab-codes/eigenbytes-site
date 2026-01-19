@@ -1,53 +1,49 @@
 /* src/css/resume.css */
 
-.resumePage {
-  max-width: 980px;
+.resume2Page {
+  max-width: 1100px;
   margin: 0 auto;
   padding: 1.25rem 0.25rem;
 }
 
-.resumeHeader {
-  display: flex;
-  gap: 1.25rem;
-  justify-content: space-between;
-  align-items: flex-start;
+/* Header */
+.resume2Header {
   padding: 1.1rem 1.1rem;
   border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 16px;
+  border-radius: 18px;
   background: var(--ifm-background-surface-color);
   box-shadow: 0 6px 20px rgba(0,0,0,0.04);
 }
 
-.resumeName {
-  font-size: 2.25rem;
+.resume2Name {
+  font-size: 2.3rem;
   line-height: 1.1;
   margin: 0;
 }
 
-.resumeTitle {
+.resume2Role {
   font-size: 1.05rem;
   margin-top: 0.35rem;
   color: var(--ifm-color-emphasis-700);
-  font-weight: 600;
+  font-weight: 650;
 }
 
-.resumeMeta {
+.resume2Meta {
   margin-top: 0.5rem;
   color: var(--ifm-color-emphasis-700);
   font-size: 0.95rem;
 }
 
-.resumeMeta .dot {
+.resume2Meta .dot {
   padding: 0 0.5rem;
   opacity: 0.7;
 }
 
-.resumeBadges {
+.resume2Badges {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
-  justify-content: flex-end;
-  max-width: 320px;
+  margin-top: 0.85rem;
 }
 
 .badge {
@@ -60,45 +56,64 @@
   white-space: nowrap;
 }
 
-.resumeSection {
-  margin-top: 1.25rem;
+/* Two-column layout */
+.resume2Layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 1.1rem;
+  margin-top: 1.1rem;
+  align-items: start;
+}
+
+/* Left column */
+.resume2Left {
+  position: sticky;
+  top: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* Right column */
+.resume2Right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* Cards */
+.resume2Card {
   padding: 1.05rem 1.1rem;
   border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 16px;
+  border-radius: 18px;
   background: var(--ifm-background-surface-color);
 }
 
-.resumeSection h2 {
+.resume2Card h2 {
   font-size: 0.95rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin: 0 0 0.75rem 0;
 }
 
-.resumeSection p {
+.resume2Card p {
   margin: 0.55rem 0;
   line-height: 1.55;
   font-size: 0.97rem;
 }
 
-.resumeSection ul {
+.resume2Card ul {
   margin: 0.25rem 0 0.25rem 0;
   padding-left: 1.2rem;
 }
 
-.resumeSection li {
+.resume2Card li {
   margin: 0.4rem 0;
   line-height: 1.5;
   font-size: 0.97rem;
 }
 
-.resumeGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.1rem;
-  margin-top: 1.1rem;
-}
-
+/* Roles */
 .role {
   margin-top: 0.95rem;
   padding-top: 0.95rem;
@@ -108,6 +123,7 @@
 .role:first-of-type {
   border-top: none;
   padding-top: 0;
+  margin-top: 0;
 }
 
 .roleTop {
@@ -118,8 +134,8 @@
 }
 
 .roleTitle {
-  font-weight: 700;
-  font-size: 1.02rem;
+  font-weight: 750;
+  font-size: 1.03rem;
 }
 
 .roleTime {
@@ -141,16 +157,13 @@
   font-size: 0.95rem;
 }
 
-@media (max-width: 900px) {
-  .resumeHeader {
-    flex-direction: column;
-  }
-  .resumeBadges {
-    justify-content: flex-start;
-    max-width: none;
-  }
-  .resumeGrid {
+/* Mobile */
+@media (max-width: 980px) {
+  .resume2Layout {
     grid-template-columns: 1fr;
+  }
+  .resume2Left {
+    position: static;
   }
   .roleTop {
     flex-direction: column;
@@ -166,12 +179,15 @@
   .navbar, .footer, .theme-doc-toc-desktop, .theme-doc-toc-mobile {
     display: none !important;
   }
-  .resumePage {
+  .resume2Page {
     max-width: 100%;
     padding: 0;
   }
-  .resumeHeader, .resumeSection {
+  .resume2Header, .resume2Card {
     box-shadow: none;
     border: 1px solid #ddd;
+  }
+  .resume2Left {
+    position: static;
   }
 }
