@@ -1,46 +1,83 @@
 ---
-title: "Anubhab Ghosh · Identity Architect"
+title: Anubhab Ghosh · Identity Architect
 hide_table_of_contents: true
 hide_title: true
 ---
 
+import { Mail, Github, Linkedin, Globe } from "lucide-react";
 
 <div className="resume2Page">
+
+  {/* ===== Header ===== */}
   <header className="resume2Header">
     <h1 className="resume2Name">Anubhab Ghosh</h1>
-    <div className="resume2Role">Senior Identity Architect · IGA & Access Platforms</div>
-   <div className="resume2Meta">
-  <span>Kolkata, India · Open to remote</span>
-</div>
-<div className="resume2IconLinks">
-  <a href="mailto:anubhab.connect@outlook.com" title="Email"><Mail size={16} /></a>
-  <a href="https://github.com/anubhab-codes" target="_blank" title="GitHub"><Github size={16} /></a>
-  <a href="https://www.linkedin.com/in/anubhab-ghosh" target="_blank" title="LinkedIn"><Linkedin size={16} /></a>
-  <a href="https://eigenbytes.com" target="_blank" title="Website"><Globe size={16} /></a>
-</div>
 
-    <div className="resume2Badges">
-      <span className="badge">Saviynt</span>
-      <span className="badge">SailPoint IIQ / ISC</span>
-      <span className="badge">Okta</span>
-      <span className="badge">Entra</span>
-      <span className="badge">AI-assisted IGA</span>
+    <div className="resume2Role">
+      Senior Identity Architect · IGA & Access Platforms
+    </div>
+
+    <div className="resume2Location">
+      Kolkata, India · Open to remote
+    </div>
+
+    {/* Icon-only contact links */}
+    <div className="resume2IconLinks">
+      <a
+        href="mailto:anubhab.connect@outlook.com"
+        aria-label="Email"
+        title="Email"
+      >
+        <Mail size={16} />
+      </a>
+
+      <a
+        href="https://github.com/anubhab-codes"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub"
+        title="GitHub"
+      >
+        <Github size={16} />
+      </a>
+
+      <a
+        href="https://www.linkedin.com/in/anubhab-ghosh"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn"
+        title="LinkedIn"
+      >
+        <Linkedin size={16} />
+      </a>
+
+      <a
+        href="https://eigenbytes.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Website"
+        title="Website"
+      >
+        <Globe size={16} />
+      </a>
     </div>
   </header>
 
-  {/* Two-column layout */}
+  {/* ===== Two-column layout ===== */}
   <div className="resume2Layout">
 
-    {/* LEFT COLUMN */}
+    {/* ===== Left column ===== */}
     <aside className="resume2Left">
+
       <section className="resume2Card">
         <h2>Summary</h2>
         <p>
-          Senior Identity Architect with 13+ years of experience designing and delivering enterprise IAM and IGA platforms,
-          including AI-assisted role design, access risk analysis, and migration automation.
+          Senior Identity Architect with 13+ years of experience designing and delivering
+          enterprise IAM and IGA platforms, including AI-assisted role design,
+          access risk analysis, and migration automation.
         </p>
         <p>
-          Strong focus on IGA strategy, solution architecture, and large-scale delivery across Saviynt, SailPoint, Okta, and Entra.
+          Strong focus on IGA strategy, solution architecture, and large-scale delivery
+          across Saviynt, SailPoint, Okta, and Entra environments.
           Experienced in owning identity programs end-to-end and working directly with US clients.
         </p>
       </section>
@@ -62,7 +99,7 @@ hide_title: true
           <li>Applied clustering algorithms for role mining to identify redundant and risky access.</li>
           <li>Analyzed access and audit logs to detect anomalous access patterns.</li>
           <li>Built AI-assisted components to extract current-state identity models for migration planning.</li>
-          <li>Used agentic AI frameworks to automate identity analysis, documentation, and data transformation.</li>
+          <li>Used agentic AI frameworks to automate identity analysis and documentation.</li>
         </ul>
       </section>
 
@@ -77,14 +114,17 @@ hide_title: true
       <section className="resume2Card">
         <h2>Focus</h2>
         <p>
-          Senior identity architecture and leadership roles where AI can be used to improve identity decisions,
-          reduce manual effort, and modernize IGA platforms.
+          Senior identity architecture and leadership roles where AI can be
+          used to improve identity decisions, reduce manual effort,
+          and modernize IGA platforms.
         </p>
       </section>
+
     </aside>
 
-    {/* RIGHT COLUMN */}
+    {/* ===== Right column ===== */}
     <main className="resume2Right">
+
       <section className="resume2Card">
         <h2>Experience</h2>
 
@@ -98,8 +138,8 @@ hide_title: true
             <li>Defined IGA strategy and target architecture for large financial clients.</li>
             <li>Applied ML techniques for role mining and access pattern analysis.</li>
             <li>Built AI-assisted components to transform identity data into knowledge graphs for migration planning.</li>
-            <li>Delivered Saviynt and SailPoint IIQ/ISC implementations aligned with audit and risk controls.</li>
-            <li>Established operational dashboards and automated audit checks for identity platforms.</li>
+            <li>Delivered Saviynt and SailPoint IIQ / ISC implementations aligned with audit and risk controls.</li>
+            <li>Established operational dashboards and automated audit checks.</li>
           </ul>
         </div>
 
@@ -114,7 +154,7 @@ hide_title: true
             <li>Used ML-based analysis to identify access anomalies from identity and audit logs.</li>
             <li>Built cloud services to extend Okta and Saviynt IGA capabilities.</li>
             <li>Delivered access requests, certifications, and automated auditing.</li>
-            <li>Integrated CyberArk PAM for privileged access use cases.</li>
+            <li>Integrated CyberArk PAM for privileged access.</li>
           </ul>
         </div>
 
@@ -125,7 +165,7 @@ hide_title: true
           </div>
           <div className="roleSub">Client: John Wiley & Sons, ACS (USA)</div>
           <ul>
-            <li>Delivered enterprise IGA, SSO, and MFA across cloud and on-prem applications.</li>
+            <li>Delivered enterprise IGA, SSO, and MFA across cloud and on-prem systems.</li>
             <li>Designed CIAM using integrated RedHat SSO and Entra architecture.</li>
             <li>Applied clustering techniques for role mining and entitlement cleanup.</li>
             <li>Set up Okta, Entra, and Saviynt environments from the ground up.</li>
@@ -148,7 +188,7 @@ hide_title: true
         </div>
 
       </section>
-    </main>
 
+    </main>
   </div>
 </div>
