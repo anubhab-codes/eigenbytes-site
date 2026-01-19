@@ -1,0 +1,64 @@
+/* src/css/resume.css */
+/* Resume typography tweaks for Docusaurus */
+
+:root {
+  --resume-max-width: 900px;
+}
+
+/* Keep resume readable and not "bloggy" */
+.markdown {
+  max-width: var(--resume-max-width);
+  margin: 0 auto;
+}
+
+/* Headings */
+.markdown h1 {
+  font-size: 2.2rem;
+  line-height: 1.15;
+  margin-bottom: 0.35rem;
+}
+
+.markdown h2 {
+  font-size: 1.2rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 1.8rem;
+  margin-bottom: 0.6rem;
+}
+
+.markdown h3 {
+  font-size: 1.05rem;
+  margin-top: 1.1rem;
+  margin-bottom: 0.35rem;
+}
+
+/* Body text */
+.markdown p {
+  font-size: 0.96rem;
+  line-height: 1.55;
+  margin: 0.55rem 0;
+}
+
+/* Lists */
+.markdown ul {
+  margin-top: 0.35rem;
+  margin-bottom: 0.75rem;
+  padding-left: 1.25rem;
+}
+
+.markdown li {
+  font-size: 0.96rem;
+  line-height: 1.5;
+  margin: 0.35rem 0;
+}
+
+/* Horizontal rules: subtle separators */
+.markdown hr {
+  margin: 1.1rem 0;
+  opacity: 0.35;
+}
+
+/* Tighten bold lines like company/date blocks */
+.markdown strong {
+  font-weight: 600;
+}
