@@ -1,3 +1,7 @@
+/* src/css/custom.css */
+/* Add this line at the top (or anywhere) */
+@import "./resume.css";
+
 /* ---------- Base typography ---------- */
 :root {
   --ifm-color-primary: #2e8555;
