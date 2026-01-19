@@ -66,15 +66,6 @@ plugins: [
       sidebarPath: require.resolve('./sidebarsPublications.ts'),
     },
   ],
-  [
-    '@docusaurus/plugin-content-docs',
-    {
-      id: 'resume',
-      path: 'docs/resume',
-      routeBasePath: 'resume',
-      sidebarPath: require.resolve('./sidebarsResume.ts'),
-    },
-  ],
 ],
 
   themeConfig: {
