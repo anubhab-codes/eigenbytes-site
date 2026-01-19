@@ -70,7 +70,7 @@ plugins: [
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/og-default.png',
+    image: 'img/og-default-compressed.png',
     colorMode: {
       respectPrefersColorScheme: true,
     },
