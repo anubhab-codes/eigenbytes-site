@@ -111,6 +111,8 @@ footer: {
       items: [
         { label: 'GitHub', href: 'https://github.com/anubhab-codes' },
         { label: 'LinkedIn', href: 'https://www.linkedin.com/in/anubhab-ghosh/' },
+        { label: "Lichess", href: "https://lichess.org/@/ravenclaw_x",
+        },
       ],
     },
   ],
