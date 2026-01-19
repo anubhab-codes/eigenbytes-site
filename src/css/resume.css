@@ -99,6 +99,36 @@
   background: var(--ifm-color-emphasis-100);
   border: 1px solid var(--ifm-color-emphasis-200);
 }
+.resume2IconLinks {
+  margin-top: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;              /* <-- key spacing fix */
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
+}
+
+.resume2IconLinks a {
+  width: 36px;               /* <-- fixed touch target */
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: var(--ifm-color-emphasis-800);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.resume2IconLinks a:hover {
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-primary);
+}
+
+.resume2IconLinks svg {
+  display: block;
+}
 
 /* Left column */
 .resume2Left {
