@@ -199,4 +199,7 @@
   .resume2Left {
     position: static;
   }
+  .resume2Links {
+  margin-top: 0.3rem;
+  }
 }
