@@ -22,8 +22,8 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'anubhab-codes', // Usually your GitHub org/user name.
+  projectName: 'eigenbytes-site', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
@@ -70,7 +70,7 @@ plugins: [
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/og-default.png',
     colorMode: {
       respectPrefersColorScheme: true,
     },
