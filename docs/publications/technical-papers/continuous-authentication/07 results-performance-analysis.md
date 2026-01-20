@@ -661,7 +661,7 @@ graph TB
 **Security vs Usability:**
 - Current configuration: 98.2% eventual authentication, 1.8% blocked
 - Tighter security: Could increase blocks to 5-8%
-- Looser security: Could reduce blocks to <1% but risk increases
+- Looser security: Could reduce blocks to less than 1% but risk increases
 
 **Accuracy vs Efficiency:**
 - Custom models: 85-89% accuracy, 8-11 MB size, 127-160 ms latency
