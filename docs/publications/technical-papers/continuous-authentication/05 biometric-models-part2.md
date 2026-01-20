@@ -722,7 +722,3 @@ graph TB
 - Together, they create comprehensive behavioral coverage
 
 ---
-
-**Next Section:** [Risk Classification & Decision Logic →](#)
-
-**Previous Section:** [← Biometric Models - Part 1: Physiological](#)
