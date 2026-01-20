@@ -68,8 +68,8 @@ The 7.2% accuracy gap is primarily attributed to:
 
 ```mermaid
 graph LR
-    A[ECAPA-TDNN<br/>Pre-trained] -->|96.8%| C[Accuracy]
-    B[GRU + Attention<br/>Custom] -->|85.7%| C
+    A[ECAPA-TDNN&lt;br/>Pre-trained] -->|96.8%| C[Accuracy]
+    B[GRU + Attention&lt;br/>Custom] -->|85.7%| C
     
     A -->|2.30%| D[EER]
     B -->|5.10%| D
@@ -130,13 +130,13 @@ The ECAPA-TDNN model, trained on VoxCeleb's extensive speaker dataset, outperfor
 
 ```mermaid
 graph TB
-    A[User Performance Distribution] --> B[High Performers<br/>Accuracy > 90%]
-    A --> C[Average Performers<br/>Accuracy 75-90%]
-    A --> D[Challenging Cases<br/>Accuracy < 75%]
+    A[User Performance Distribution] --> B[High Performers&lt;br/>Accuracy > 90%]
+    A --> C[Average Performers&lt;br/>Accuracy 75-90%]
+    A --> D[Challenging Cases&lt;br/>Accuracy &lt; 75%]
     
-    B --> E[37 users<br/>72.5% of total]
-    C --> F[11 users<br/>21.6% of total]
-    D --> G[3 users<br/>5.9% of total]
+    B --> E[37 users&lt;br/>72.5% of total]
+    C --> F[11 users&lt;br/>21.6% of total]
+    D --> G[3 users&lt;br/>5.9% of total]
     
     style B fill:#a8dadc
     style C fill:#ffd93d
@@ -173,12 +173,12 @@ graph TB
 graph LR
     A[Activity Recognition Accuracy]
     
-    A --> B[Walking<br/>93.8%]
-    A --> C[Walking Upstairs<br/>90.9%]
-    A --> D[Walking Downstairs<br/>92.6%]
-    A --> E[Sitting<br/>66.7%]
-    A --> F[Standing<br/>83.8%]
-    A --> G[Laying<br/>95.2%]
+    A --> B[Walking&lt;br/>93.8%]
+    A --> C[Walking Upstairs&lt;br/>90.9%]
+    A --> D[Walking Downstairs&lt;br/>92.6%]
+    A --> E[Sitting&lt;br/>66.7%]
+    A --> F[Standing&lt;br/>83.8%]
+    A --> G[Laying&lt;br/>95.2%]
     
     style B fill:#a8dadc
     style C fill:#a8dadc
@@ -220,11 +220,11 @@ graph LR
 ```mermaid
 flowchart LR
     A[Session Start] --> B[Behavioral Monitoring]
-    B --> C[Risk Assessment<br/>85.2% Accuracy]
+    B --> C[Risk Assessment&lt;br/>85.2% Accuracy]
     
-    C -->|72.5%| D[Low Risk<br/>No Action]
-    C -->|21.3%| E[Medium Risk<br/>Voice Check]
-    C -->|6.2%| F[High Risk<br/>Face Check]
+    C -->|72.5%| D[Low Risk&lt;br/>No Action]
+    C -->|21.3%| E[Medium Risk&lt;br/>Voice Check]
+    C -->|6.2%| F[High Risk&lt;br/>Face Check]
     
     E -->|85.7% Success| D
     E -->|14.3% Fail| F
@@ -391,10 +391,10 @@ pie title Session Outcomes
 
 ```mermaid
 graph LR
-    A[Total Latency<br/>127ms avg] --> B[Feature Extraction<br/>35ms]
-    A --> C[Model Inference<br/>62ms]
-    A --> D[Risk Classification<br/>18ms]
-    A --> E[Decision Logic<br/>12ms]
+    A[Total Latency&lt;br/>127ms avg] --> B[Feature Extraction&lt;br/>35ms]
+    A --> C[Model Inference&lt;br/>62ms]
+    A --> D[Risk Classification&lt;br/>18ms]
+    A --> E[Decision Logic&lt;br/>12ms]
     
     style A fill:#457b9d
     style B fill:#a8dadc
@@ -471,7 +471,7 @@ graph LR
 | Gargoyle Guard | Keystroke + Mouse | 87.5% | 8.1% | 2021 |
 | GaitCode | Gait + Accelerometer | 94.1% | 3.8% | 2021 |
 | Multimodal CNN-RNN | Face + Voice | 93.7% | 4.5% | 2020 |
-| **Our System** | Face + Voice + Keystroke + Activity | 88.2% (face)<br/>85.7% (voice)<br/>83.0% (keystroke)<br/>89.9% (activity) | 4.7% (face)<br/>5.1% (voice)<br/>12.3% (keystroke) | 2025 |
+| **Our System** | Face + Voice + Keystroke + Activity | 88.2% (face)&lt;br/>85.7% (voice)&lt;br/>83.0% (keystroke)&lt;br/>89.9% (activity) | 4.7% (face)&lt;br/>5.1% (voice)&lt;br/>12.3% (keystroke) | 2025 |
 
 **Key Differentiators:**
 
@@ -579,12 +579,12 @@ pie title False Positive Causes
 
 ```mermaid
 graph TB
-    A[Current Performance] --> B[Data Augmentation<br/>+3-5% accuracy]
-    A --> C[Architecture Refinement<br/>+2-4% accuracy]
-    A --> D[Ensemble Methods<br/>+4-6% accuracy]
-    A --> E[Transfer Learning<br/>+5-8% accuracy]
+    A[Current Performance] --> B[Data Augmentation&lt;br/>+3-5% accuracy]
+    A --> C[Architecture Refinement&lt;br/>+2-4% accuracy]
+    A --> D[Ensemble Methods&lt;br/>+4-6% accuracy]
+    A --> E[Transfer Learning&lt;br/>+5-8% accuracy]
     
-    B --> F[Optimized System<br/>~93% avg accuracy]
+    B --> F[Optimized System&lt;br/>~93% avg accuracy]
     C --> F
     D --> F
     E --> F
@@ -680,10 +680,10 @@ graph TB
 | Criterion | Target | Current | Status | Gap Analysis |
 |-----------|--------|---------|--------|--------------|
 | Accuracy | 90%+ | 85-89% | Approaching | Need 3-5% improvement |
-| Latency | <200ms | 127ms avg | Met | Margin for growth |
+| Latency | &lt;200ms | 127ms avg | Met | Margin for growth |
 | Throughput | 400+ req/s | 450 req/s | Met | Capacity available |
 | Uptime | 99.9% | 99.2% | Close | Stability improvements needed |
-| Security | <3% breach | 1.8% blocked | Met | Strong performance |
+| Security | &lt;3% breach | 1.8% blocked | Met | Strong performance |
 
 ### Recommended Deployment Strategy
 
