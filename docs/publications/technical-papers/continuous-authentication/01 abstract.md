@@ -4,9 +4,9 @@ section: "Continuous Authentication"
 type: "Paper Section"
 ---
 
-# Deep Learning-Based Continuous Authentication System Using Multi-Modal Biometrics
+# Abstract
 
-## Abstract
+## The Problem Statement
 
 The rapid evolution of technology has exposed the vulnerabilities of traditional authentication mechanisms like passwords, which are prone to security threats such as brute force attacks, phishing, and dictionary attacks.
 

@@ -572,7 +572,3 @@ Custom models are competitive and offer:
 - Full control over architecture and training
 
 ---
-
-**Next Section:** [Biometric Models - Part 2: Behavioral Authentication →](#)
-
-**Previous Section:** [← System Architecture & Overview](#)

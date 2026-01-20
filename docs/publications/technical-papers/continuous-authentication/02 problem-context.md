@@ -274,7 +274,3 @@ This project addresses these critical gaps by implementing a continuous authenti
 - Maintains user experience with minimal disruption
 
 ---
-
-**Next:** [Technical Approach & System Architecture →](#)
-
-**Previous:** [← Project Overview](#)
