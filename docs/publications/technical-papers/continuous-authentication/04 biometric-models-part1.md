@@ -1,5 +1,5 @@
 ---
-title: "Biometric Models - Part 1: Physiological"
+title: "Biometric Models: Physiological"
 section: "Continuous Authentication"
 type: "Paper Section"
 ---
