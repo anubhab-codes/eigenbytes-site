@@ -708,12 +708,10 @@ This research was conducted as part of the M.Tech program in Artificial Intellig
 
 ## Repository and Resources
 
-**Code Repository:** [GitHub Link - To be added]
+**Code Repository:** [https://github.com/anubhab-codes/continuous-authentication]
 
-**Documentation:** [Project Wiki - To be added]
+**Documentation:** [https://eigenbytes.com/publications/technical-papers/continuous-authentication/]
 
 **Demo Application:** [Live Demo - To be added]
-
-**Contact:** anubhab.ghosh@iitp.ac.in
 
 ---
