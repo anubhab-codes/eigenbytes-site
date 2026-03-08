@@ -10,7 +10,7 @@ toc:
 John now has machines talking to each other across networks.  
 Networking works.
 
-But there is still a problem.
+But there is still a problem for John.
 
 Communicating using **IP addresses** is painful.  
 IPs are hard to remember and do not explain what a machine actually does.
