@@ -1,119 +1,40 @@
----
-layout: post
-title: "Why DevOps?"
-subtitle: "A simple, real example (no buzzwords)"
-categories: [devops]
-tags: [devops]
----
+# Why DevOps
 
-# Why DevOps?
+DevOps is the story of how software changes move safely from a laptop to a live system.
 
-## A simple starting point
+## The problem
 
-A developer writes some code.
+When developers ship code without operations in mind, production becomes unstable. When operators control deployments without developer feedback, delivery becomes slow.
 
-The code works on the developer’s laptop.  
-Now it needs to run on a server so users can use it.
+## The DevOps answer
 
-This step _moving code from a laptop to a server_ is where problems usually start.
+DevOps creates a shared feedback loop:
 
----
+- Developers write code and tests.
+- Automation builds and verifies delivery artifacts.
+- Operations deploy and monitor.
+- The team learns from failures and improves.
 
-## What was the problem?
+## Example workflow
 
-Earlier, deployments followed a **documented checklist**.
+```bash
+git checkout -b feature/login
+# make changes
+git add .
+git commit -m "Add login flow"
+git push origin feature/login
+```
 
-A typical checklist looked like this:
+Result: the feature branch can now be reviewed, tested, and deployed.
 
-1. Download the build  
-2. Unzip it  
-3. Copy files to the application directory  
-4. Ensure correct file ownership and permissions  
-5. Restart the application  
+## Mental model
 
-The issue was **not lack of documentation**.
+Think of DevOps as a pipeline from idea to production. Each stage adds safety, visibility, and repeatability.
 
-The issue was **how the same steps were executed**.
-
----
-
-## A realistic example of variation
-
-Consider this checklist step:
-
-> “Ensure correct file ownership and permissions”
-
-The document also stated:
-- Files should be owned by `appuser`
-- Permissions should match the existing release
-
-Now two engineers follow this.
-
-### Engineer A
-- Copies the new files **over the existing directory**
-- Old files that no longer exist in the new build are left behind
-- Existing ownership and permissions are preserved
-
-### Engineer B
-- Removes the old directory completely
-- Copies the new files into a clean directory
-- Applies ownership and permissions explicitly
-
-Both approaches are **reasonable**.  
-Both follow the document.
-
-But the result is different.
-
----
-
-## Why was this risky?
-
-Because copying over an old directory can:
-
-- Leave obsolete files on disk  
-- Preserve permissions from a previous release  
-- Apply unintended configuration  
-- Make behavior depend on what was deployed earlier  
-
-The application may start successfully  
-and still behave incorrectly later.
-
----
-
-## The simple idea behind DevOps
-
-A small but important change:
-
-> “Every deployment must create the same directory structure,  
-> with the same files, ownership, and permissions —  
-> regardless of what existed before.”
-
-So instead of:
-- Adjusting things based on the previous deployment
-
-We move to:
-- Recreating the application directory in a known way
-- Applying ownership and permissions explicitly
-- Making each deployment independent of history
-
-This approach is called **DevOps**.
-
----
-
-## What changed after this?
-
-- Deployments behaved the same way every time  
-- Permission issues stopped appearing unexpectedly  
-- Old files stopped affecting new releases  
-- Failures became easier to explain and reproduce  
-
-Nothing became fancy.  
-Things became **predictable**.
-
----
-
-## One takeaway
-
-DevOps exists because **relying on previous server state is risky**.
-
-DevOps removes that risk by **recreating the application exactly as intended on every deployment**.
+```mermaid
+flowchart LR
+  Dev[Developer] -->|push| Git[Source Control]
+  Git -->|CI| Build[Build & Test]
+  Build -->|Deploy| Prod[Production]
+  Prod -->|monitor| Ops[Operations]
+```

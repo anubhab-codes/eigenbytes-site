@@ -1,0 +1,172 @@
+Most engineers learn Kubernetes networking the wrong way.
+
+They memorize tools. ALB. Ingress. Gateway API. API Gateway. Service Mesh. Network Policies.
+
+They never learn why each one exists.
+
+Let me help you understand them
+
+>> 𝗬𝗼𝘂 𝘀𝘁𝗮𝗿𝘁 𝘄𝗶𝘁𝗵 𝗮 𝗽𝗼𝗱.
+Your app runs. Nobody outside the cluster can reach it.
+
+>> 𝗦𝗼 𝘆𝗼𝘂 𝘂𝘀𝗲 𝗮 𝗟𝗼𝗮𝗱𝗕𝗮𝗹𝗮𝗻𝗰𝗲𝗿 𝗦𝗲𝗿𝘃𝗶𝗰𝗲.
+You get an NLB on EKS. It works.
+Until you have 10 services. Now you have 10 NLBs on your AWS bill.
+
+>> 𝗦𝗼 𝘆𝗼𝘂 𝘂𝘀𝗲 𝗜𝗻𝗴𝗿𝗲𝘀𝘀.
+One Ingress routes to many services. Routing lives in YAML next to your code.
+
+But Ingress is just config. Something has to execute it.
+
+>> 𝗦𝗼 𝘆𝗼𝘂 𝘂𝘀𝗲 𝗮𝗻 𝗜𝗻𝗴𝗿𝗲𝘀𝘀 𝗖𝗼𝗻𝘁𝗿𝗼𝗹𝗹𝗲𝗿. 𝗢𝗻 𝗘𝗞𝗦, 𝘁𝗵𝗮𝘁 𝗺𝗲𝗮𝗻𝘀 𝗮𝗻 𝗔𝗟𝗕.
+The AWS Load Balancer Controller reads your Ingress and provisions an ALB.
+
+One ALB on your bill. 20 services behind it.
+
+>> 𝗕𝘂𝘁 𝗜𝗻𝗴𝗿𝗲𝘀𝘀 𝗵𝗮𝗱 𝗹𝗶𝗺𝗶𝘁𝘀.
+No TCP or UDP support. Vendor-specific annotations everywhere. Nobody knew who owned the resource.
+
+And in March 2026, Ingress NGINX retired. 50% of clusters had to move.
+
+>> 𝗦𝗼 𝗚𝗮𝘁𝗲𝘄𝗮𝘆 𝗔𝗣𝗜 𝗿𝗲𝗽𝗹𝗮𝗰𝗲𝗱 𝗜𝗻𝗴𝗿𝗲𝘀𝘀.
+Three resources instead of one. Platform team owns Gateway. Developers own HTTPRoute.
+
+TCP, UDP, TLS, gRPC supported natively. No more annotation soup.
+
+>> 𝗡𝗼𝘄 𝗺𝗶𝗰𝗿𝗼𝘀𝗲𝗿𝘃𝗶𝗰𝗲𝘀 𝗻𝗲𝗲𝗱 𝘁𝗼 𝘁𝗮𝗹𝗸 𝘁𝗼 𝗲𝗮𝗰𝗵 𝗼𝘁𝗵𝗲𝗿.
+You want mTLS. Retries. Tracing.
+You can ask every developer to add this to every service. Or you can add a layer.
+
+>> 𝗦𝗼 𝘆𝗼𝘂 𝘂𝘀𝗲 𝗮 𝗦𝗲𝗿𝘃𝗶𝗰𝗲 𝗠𝗲𝘀𝗵.
+Istio. Linkerd. Cilium. Sidecar or sidecarless.
+
+The mesh handles the plumbing. Your code stays clean.
+
+>> 𝗕𝘂𝘁 𝘆𝗼𝘂𝗿 𝗰𝗹𝘂𝘀𝘁𝗲𝗿 𝗶𝘀 𝘀𝘁𝗶𝗹𝗹 𝘄𝗶𝗱𝗲 𝗼𝗽𝗲𝗻.
+Any pod can talk to any pod. One compromised pod moves laterally to everything.
+
+>> 𝗦𝗼 𝘆𝗼𝘂 𝘂𝘀𝗲 𝗡𝗲𝘁𝘄𝗼𝗿𝗸 𝗣𝗼𝗹𝗶𝗰𝗶𝗲𝘀.
+You define which pods can reach which pods. Enforced by your CNI.
+
+>> 𝗧𝗵𝗲𝗻 𝘆𝗼𝘂 𝗲𝘅𝗽𝗼𝘀𝗲 𝗔𝗣𝗜 𝘁𝗼 𝟯𝗿𝗱 𝗽𝗮𝗿𝘁𝘆 𝘃𝗲𝗻𝗱𝗼𝗿𝘀
+Now you need API keys. Rate limits per customer. JWT validation.
+
+Six services. Six implementations of the same thing.
+
+>> 𝗦𝗼 𝘆𝗼𝘂 𝗮𝗱𝗱 𝗮𝗻 𝗔𝗣𝗜 𝗚𝗮𝘁𝗲𝘄𝗮𝘆.
+Kong. APISIX. Envoy Gateway.
+It handles auth, rate limiting, keys, transformations. Your services stay focused on business logic.
+
+>> 𝗪𝗮𝗶𝘁. 𝗚𝗮𝘁𝗲𝘄𝗮𝘆 𝗔𝗣𝗜 𝗮𝗻𝗱 𝗔𝗣𝗜 𝗚𝗮𝘁𝗲𝘄𝗮𝘆 𝗮𝗿𝗲 𝗱𝗶𝗳𝗳𝗲𝗿𝗲𝗻𝘁 𝘁𝗵𝗶𝗻𝗴𝘀.
+
+Gateway API is a Kubernetes spec. It replaces Ingress. Gets traffic into the cluster.
+
+API Gateway is a pattern. It manages what your APIs do once inside.
+
+The names sound identical. They are not the same thing.
+
+Each layer exists because the previous one was not enough.
+
+
+=====================================================
+
+You start with a Pod running your app.
+Your app runs in a pod.
+You can hit it from inside the cluster. Nobody outside can reach it.
+That is fine for a background job. It is not fine for a web app.
+So you use a LoadBalancer Service.
+A LoadBalancer Service tells Kubernetes to provision a real cloud load balancer.
+On EKS, the AWS Load Balancer Controller creates a Network Load Balancer (NLB) by default. NLB is Layer 4. It handles TCP and UDP.
+Your app gets a public endpoint.
+It works. Until you have 10 services.
+Now you have 10 NLBs. Each one shows up on your AWS bill every single month.
+LoadBalancer Service solved external access. But one per service does not scale.
+So you use a Kubernetes Ingress.
+Ingress is a Kubernetes resource. It defines HTTP and HTTPS routing rules in YAML.
+One Ingress can route traffic to many services. /api/products goes to the product service. /api/orders goes to the order service.
+Routing lives where the code lives.
+But Ingress is just a config. Something has to actually do the routing.
+So you use an Ingress Controller. On EKS, that means an ALB.
+The AWS Load Balancer Controller reads your Ingress rules and provisions an Application Load Balancer (ALB).
+ALB is Layer 7. It understands HTTP and HTTPS. Path-based routing. Host-based routing. TLS termination.
+You write Ingress YAML. The controller talks to AWS. An ALB appears.
+One ALB on your bill, even with 20 services behind it.
+Scaling external access was unmanageable. Ingress fixed that.
+Learn advanced DevOps, MLOps, and AIops by building real production infrastructure, troubleshooting live incidents, and working on projects that look exactly like what companies run in production.
+25-Week AWS DevOps + MLOPS + AIOPS Bootcamp
+But Ingress had its own problems.
+For ten years, Ingress was the default way to get traffic into a Kubernetes cluster.
+Then the limits started to show.
+Want to route TCP or UDP? Ingress only handled HTTP and HTTPS.
+Want canary deployments or traffic splitting? You wrote vendor-specific annotations. Lots of them. Each Ingress Controller had its own syntax.
+The platform team and the application team shared the same Ingress resource. Nobody knew who owned what.
+And in November 2025, the Kubernetes SIG Network announced Ingress NGINX was being retired. As of March 2026, no more security patches. About 50% of cloud-native environments were running it.
+Ingress was a config file with too many sticky notes attached.
+So the Kubernetes community built Gateway API.
+Gateway API is the official successor to Ingress. It went GA in October 2023.
+It splits the old Ingress resource into three pieces.
+GatewayClass defines the type of infrastructure. Platform team owns this.
+Gateway is the actual entry point. Cluster operators manage this.
+HTTPRoute defines the routing rules. Application developers own this.
+Each team manages what they should manage.
+Gateway API also supports TCP, UDP, TLS, and gRPC natively. No more annotation soup.
+On EKS, AWS Load Balancer Controller v3.0 made Gateway API support GA in March 2026. Write Gateway and HTTPRoute resources. The controller provisions an ALB or NLB.
+Ingress was monolithic and vendor-locked. Gateway API fixed that.
+Now your microservices need to talk to each other.
+Service A calls Service B. Service B calls Service C.
+Inside the cluster, using ClusterIP Services.
+It works. Until something fails.
+You have no idea which call broke. You have no idea if traffic between pods was encrypted. Some pods retry forever. Some give up immediately.
+You want mTLS, consistent retries, and distributed tracing.
+You can ask every developer to add this to every service. Or you can add a layer.
+So you install a Service Mesh.
+Istio. Linkerd. Cilium Service Mesh.
+A service mesh handles traffic between pods. Older meshes inject a sidecar proxy into every pod. Newer ones like Istio Ambient and Cilium run sidecarless using eBPF.
+Either way, the mesh handles mTLS, retries, timeouts, tracing, and traffic splitting.
+Your application code stays clean.
+Service-to-service traffic was a black box. Service Mesh fixed that.
+But your services are still wide open inside the cluster.
+By default, any pod can talk to any other pod.
+Your frontend pod can talk to your payments database. Your build pod can talk to your auth service.
+If one pod gets compromised, the attacker can move laterally to anything.
+So you use Network Policies.
+A Network Policy defines which pods can talk to which other pods.
+You write a policy that says only the order service can reach the payments database. Another that says the frontend can only reach the gateway.
+Network Policies are enforced by your CNI. Calico, Cilium, and others.
+Compromised pods cannot reach what they should not reach.
+A flat cluster network was a security risk. Network Policies fixed that.
+Then the business launches a mobile app.
+Internal traffic is meshed. Network policies lock things down. External traffic comes in through Gateway API.
+Then the business launches a mobile app. A partner wants API access. A third-party developer wants to integrate.
+Now you need API keys. Rate limits per customer. JWT validation centralized.
+You start adding auth code to every service. Six microservices. Six different implementations of the same thing.
+Customer A should get 1000 req/sec. Customer B should get 100. Free tier should get 10.
+Where does that logic live? You start to lose track.
+So you add an API Gateway.
+Kong. APISIX. Envoy Gateway. AWS API Gateway.
+An API Gateway sits between your Gateway API and your microservices.
+It handles everything that is not business logic. API key validation. JWT validation. Rate limiting per customer. Request transformation. Response caching.
+A request comes in. The gateway checks the API key. Sees the customer’s plan allows 1000 req/sec. Forwards the request.
+Your microservices stay focused on business logic.
+API-level concerns scattered across services made the platform fragile. API Gateway fixed that.
+But wait. Gateway API and API Gateway are different things.
+This is the part that confuses everyone. The names are almost identical. They are not the same.
+Gateway API is a Kubernetes specification. It replaces Ingress. It handles north-south routing into the cluster.
+API Gateway is an architectural pattern. It handles API management. Auth. Rate limiting. Keys. Transformations.
+The line is blurring. Kong, Envoy Gateway, and APISIX all implement Gateway API natively now.
+But conceptually, Gateway API gets traffic into the cluster. API Gateway manages what your APIs do once they are inside.
+The mistake most teams make.
+A Nginx Deployment routing traffic is not an API Gateway. It is a reverse proxy.
+An Ingress Controller is not a load balancer. It is a router that provisions one.
+A service mesh is not an API Gateway. It handles east-west traffic. API Gateway handles north-south.
+Network Policies are not a firewall. They are pod-level traffic rules enforced by your CNI.
+Get the names right and the architecture decisions get easier.
+> > To summarize the full story.
+Your pod was invisible. LoadBalancer Service fixed that.
+One NLB per service was too expensive. Ingress and ALB fixed that.
+Ingress was monolithic and vendor-locked. Gateway API fixed that.
+Service-to-service traffic was a black box. Service Mesh fixed that.
+A flat cluster network was a security risk. Network Policies fixed that.
+API-level concerns scattered across services made the platform fragile. API Gateway fixed that.
+Each layer exists because the previous one was not enough.
+That is how you stop memorizing Kubernetes networking and start understanding it.
