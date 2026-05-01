@@ -1,28 +1,41 @@
-# Eigenbytes Site
+# Website
 
-This website is a learning-focused engineering site built with Docusaurus. It is designed to help you build a mental model for concepts in DevOps, Linux, networking, source control, Docker, Kubernetes, and continuous authentication.
+This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
-The writing blends story-driven explanations with concrete commands, code examples, and diagrams so you can connect each concept to real results.
-
-## Local development
+## Installation
 
 ```bash
 yarn
+```
+
+## Local Development
+
+```bash
 yarn start
 ```
 
-## Build and deploy
+This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+
+## Build
 
 ```bash
 yarn build
 ```
 
+This command generates static content into the `build` directory and can be served using any static contents hosting service.
+
+## Deployment
+
+Using SSH:
+
 ```bash
 USE_SSH=true yarn deploy
 ```
 
-## How this site is organised
+Not using SSH:
 
-- `docs/engineering`: learning content for practical engineering and operations.
-- `docs/publications`: papers and technical narratives with evidence and model explanation.
-- `src/pages/resume.mdx`: a personal resume page written as a clear narrative.
+```bash
+GIT_USER=<Your GitHub username> yarn deploy
+```
+
+If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.

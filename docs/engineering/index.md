@@ -1,9 +1,13 @@
-# Engineering Learning Path
+---
+title: Engineering
+sidebar_position: 1
+description: "Applied engineering work across identity, DevOps, and artificial intelligence"
+---
 
-This section teaches the practical foundations of modern software operations. Each topic combines mental models, real commands, and diagrams so you learn why something exists, not just how to type it.
+This section reflects my applied engineering work across identity, DevOps, and artificial intelligence.
 
-- Start with Linux and source control.
-- Move into Docker and Kubernetes.
-- Finish with networking, service ownership, and deployment patterns.
+The content here is shaped by over one and a half decade of hands-on experience in designing, building, and orchestrating systems in large enterprise environments.
 
-> Practical engineering is a story about systems, ownership, and the point where code meets operations.
+Rather than focusing on tools or tutorials, these notes capture architectural decisions, trade-offs, and patterns observed across real-world implementations. The emphasis is on what works at scale, what fails under pressure, and how systems evolve over time.
+
+The material spans identity and access management platforms, DevOps and cloud-native operations, and the practical application of artificial intelligence in security and systems engineering.
