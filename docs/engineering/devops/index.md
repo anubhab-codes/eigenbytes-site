@@ -1,51 +1,63 @@
 ---
-title: DevOps
+title: DevOps Engineering
 sidebar_position: 2
-description: "Hands-on DevOps and platform engineering — from Linux to Kubernetes to cloud-native delivery"
+description: "A structured engineering academy — from how servers work to production-grade Kubernetes delivery"
 ---
 
-Code that works on one machine is not enough.
+# DevOps Engineering
 
-It needs to run reliably across development, staging, and production. It needs to deploy automatically. It needs to recover from failure. It needs to scale when traffic spikes and scale back down when it drops.
+Most DevOps content teaches tools. Install this, run that command, move on.
 
-That gap — between writing code and running it at scale — is what DevOps exists to close.
+This portal teaches engineering thinking. You learn why each tool exists, what problem it solves, and how it connects to everything else. By the end you can look at a production system and understand every layer of it.
 
 ---
 
-## What this section covers
+## How this portal is structured
 
-This is a hands-on engineering reference built around the tools used in real production environments.
+Five learning phases, each building on the last.
 
-Every topic combines the concept and the hands-on lab in one place. Read it and run it. Nothing is split across separate concept and lab pages.
+```mermaid
+graph LR
+    F[Foundations] --> SC[Source Control]
+    SC --> C[Containers]
+    C --> K[Kubernetes]
+    K --> PE[Platform Engineering]
+```
 
-Everything here is locally runnable. No enterprise accounts. No paid cloud required to follow along.
+You do not need to follow them in order if you already have foundation knowledge. But every phase assumes the previous one.
 
 ---
 
 ## Learning path
 
-Start here and work forward. Each section builds on the previous one.
+| Phase | Section | What you learn | Key tools |
+|-------|---------|---------------|-----------|
+| 1 | **Foundations** | How servers work at the OS and network level | Linux, SSH, TCP/IP, DNS |
+| 2 | **Source Control** | How teams manage and deliver code changes | Git, GitHub |
+| 3 | **Containers** | How applications are packaged and isolated | Docker |
+| 4 | **Kubernetes** | How containers run at scale in production | kubectl, K8s |
+| 5 | **Platform Engineering** | How teams ship software continuously and reliably | GitHub Actions, ArgoCD, Helm, Terraform |
 
-| # | Section | What you learn |
-|---|---------|---------------|
-| 1 | Linux | Filesystem, processes, user access |
-| 2 | Networking | How machines communicate, DNS |
-| 3 | Git | Version control, branching, pull requests |
-| 4 | Docker | Containers, images, networking, volumes |
-| 5 | Kubernetes | Orchestration, workloads, services, config |
-| 6 | CI/CD | Automated build and deployment pipelines |
-| 7 | GitOps | Declarative delivery with ArgoCD |
-| 8 | Helm | Kubernetes package management |
-| 9 | Terraform | Infrastructure as code |
+The **Reference** section contains production architecture diagrams and a cross-layer troubleshooting playbook. Use it when you're debugging real systems.
 
 ---
 
-## Preferred stack
+## The engineering philosophy here
 
-- Docker Desktop
-- Kubernetes (local via Docker Desktop)
-- GitHub Actions
-- ArgoCD
-- Helm
-- Terraform
-- AWS EKS
+Every concept in this portal is introduced through the problem it solves.
+
+You start with a Pod. It crashes. Nobody restarts it. So you use a Deployment. Now your app is accessible but pod IPs keep changing. So you use a Service. Ten services, ten load balancers, your cloud bill doubles. So you use Ingress. Each concept exists because the previous one was not enough.
+
+That progression — from problem to solution to new problem — is how real systems get built. Understanding it makes you better at operating systems that were built by someone else.
+
+---
+
+## Local setup
+
+Everything in this portal runs locally. You need:
+
+- **Docker Desktop** — for containers and local Kubernetes
+- Enable Kubernetes: Docker Desktop → Settings → Kubernetes → Enable Kubernetes → Apply & Restart
+- Verify: `kubectl get nodes` — should show one node, `STATUS = Ready`
+
+No cloud accounts required to follow the hands-on sections.
