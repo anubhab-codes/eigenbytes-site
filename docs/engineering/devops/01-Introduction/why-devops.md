@@ -1,9 +1,7 @@
 ---
-layout: post
-title: "Why DevOps?"
-subtitle: "A simple, real example (no buzzwords)"
-categories: [devops]
-tags: [devops]
+title: Why DevOps
+sidebar_position: 1
+description: "The problem DevOps exists to solve, explained with a real example"
 ---
 
 # Why DevOps?
