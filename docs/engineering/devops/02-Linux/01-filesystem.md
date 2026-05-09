@@ -1,308 +1,133 @@
 ---
-layout: post
-title: "Linux File system"
-subtitle: "Linux File system Guide"
-categories: [devops]
-tags: [devops]
-topic: linux
+title: The Filesystem
+sidebar_position: 2
+description: "Where everything lives on a Linux server — directory layout, navigation, and finding what you need"
 ---
 
-# Linux Filesystem Layout
+# The Filesystem
 
-## How John Learns Why Everything Lives Where It Does
+You SSH into a production server. An app is broken. You need to find the config file. You need to check the logs. You need to see what is installed.
 
-John is now comfortable logging into Linux. He can run commands, edit files, and start services.
-But one question keeps coming up:
-
-> “Where should things actually go?”
-
-Linux does not place files randomly. The filesystem layout exists to solve real operational problems.
+On Linux, everything is a file. There is a defined layout, and if you know the layout you always know where to look.
 
 ---
 
-## John explores the root of the filesystem
+## The layout
 
-John starts at the top:
+Linux follows the Filesystem Hierarchy Standard. Every directory has a purpose.
+
+| Directory | What lives there |
+|-----------|-----------------|
+| `/etc` | System and application config files |
+| `/var/log` | Log files |
+| `/home/<user>` | User home directories |
+| `/root` | Root user's home |
+| `/bin`, `/usr/bin` | Executable programs |
+| `/sbin`, `/usr/sbin` | Admin executables (require root) |
+| `/tmp` | Temporary files — cleared on reboot |
+| `/opt` | Third-party software installed outside the package manager |
+| `/proc` | Virtual filesystem — live kernel and process info |
+
+The rule: **config is in `/etc`**, **logs are in `/var/log`**, **programs are in `/usr/bin`**.
+
+---
+
+## Hands-on
+
+### Navigate the filesystem
 
 ```bash
+# Where am I?
+pwd
+
+# What is at the root?
 ls /
+
+# Long format — permissions, owner, size, timestamp
+ls -la /etc
+
+# Change directory
+cd /var/log
+
+# Go back one level
+cd ..
+
+# Return home
+cd ~
 ```
 
-He sees directories like `/bin`, `/etc`, `/var`, `/opt`, `/home`, `/tmp`.
-
-At first, this looks arbitrary. It is not.
-
-Linux follows a standard layout so that:
-
-* admins know where to look
-* tools know where to read from
-* automation behaves consistently across systems
-
----
-
-## `/home`: where humans live
-
-John checks:
+### Find config files
 
 ```bash
-ls /home
+# List nginx config (if installed)
+ls /etc/nginx/
+
+# View SSH server config
+cat /etc/ssh/sshd_config | head -30
+
+# Find all .conf files under /etc
+find /etc -name "*.conf" -type f | head -20
+
+# Files in /etc modified in the last day
+find /etc -mtime -1 -type f
 ```
 
-He sees his own directory:
-
-```text
-/home/john
-```
-
-This directory exists because:
-
-* each user needs a private workspace
-* permissions isolate users from each other
-* backups can target user data easily
-
-John creates a file:
+### Explore logs
 
 ```bash
-touch /home/john/test.txt
+# What logs exist?
+ls /var/log/
+
+# Last 50 lines of syslog
+tail -50 /var/log/syslog
+
+# Follow a log in real time
+tail -f /var/log/syslog
+
+# Search for errors
+grep -i "error" /var/log/syslog | tail -20
 ```
 
-Linux allows this because John owns his home directory.
-
----
-
-## `/root`: why John was denied earlier
-
-Earlier, John tried:
+### Check disk space
 
 ```bash
-ls /root
+# Disk usage per filesystem
+df -h
+
+# What is consuming space in /var/log?
+du -sh /var/log/*
+
+# Largest files in current directory
+find . -type f -printf '%s %p\n' | sort -rn | head -10
 ```
 
-and got “permission denied”.
-
-Now it makes sense.
-
-`/root` is:
-
-* the home directory of the `root` user
-* intentionally separate from `/home`
-* protected from regular users
-
-Root is a user, not magic. It just has a different home.
-
----
-
-## `/bin` and `/sbin`: basic commands live here
-
-John wonders where commands like `ls` actually come from.
-
-He checks:
+### Understand what is installed
 
 ```bash
-which ls
-```
-
-Output:
-
-```text
-/bin/ls
-```
-
-This tells him:
-
-* `/bin` contains essential user commands
-* these commands must be available even in recovery mode
-
-Similarly:
-
-```bash
-which ip
-```
-
-might point to:
-
-```text
-/sbin/ip
-```
-
-`/sbin` contains system-level commands meant for administrators.
-
----
-
-## `/etc`: configuration lives here (and only here)
-
-John edits a service file earlier in `/etc/systemd/system`.
-Now he understands why.
-
-`/etc` exists for **configuration only**.
-
-John lists it:
-
-```bash
-ls /etc
-```
-
-He sees:
-
-* service configs
-* user configs
-* network configs
-
-Important rule:
-
-> Executables do not live in `/etc`.
-> Data does not live in `/etc`.
-> Only configuration.
-
-This separation allows:
-
-* safe upgrades
-* easy backups
-* predictable automation
-
----
-
-## `/var`: data that changes while the system runs
-
-John notices logs are not in `/etc`.
-
-He checks:
-
-```bash
-ls /var
-```
-
-He sees directories like:
-
-* `/var/log`
-* `/var/lib`
-* `/var/tmp`
-
-He opens logs:
-
-```bash
-ls /var/log
-```
-
-This explains why:
-
-* logs grow over time
-* disk-full issues often come from `/var`
-* `/var` is monitored closely in production
-
-Applications write changing data here, not in `/etc`.
-
----
-
-## `/tmp`: temporary means temporary
-
-John creates a file:
-
-```bash
-touch /tmp/test.tmp
-```
-
-It works.
-But after a reboot, the file is gone.
-
-This teaches an important rule:
-
-> `/tmp` is for short-lived files only.
-
-System cleanups and reboots can wipe it at any time.
-
----
-
-## `/opt`: where applications belong
-
-John earlier placed his app in `/opt/my_app`.
-
-Now he understands why.
-
-`/opt` exists for:
-
-* optional software
-* third-party applications
-* custom deployments
-
-This keeps applications separate from:
-
-* OS binaries (`/bin`)
-* configs (`/etc`)
-* logs (`/var/log`)
-
-In production systems, this separation prevents accidental overwrites during OS upgrades.
-
----
-
-## `/usr`: OS-installed software
-
-John installs a package:
-
-```bash
-yum install python3
-```
-
-He checks:
-
-```bash
+# Where is a binary?
+which nginx
 which python3
+
+# Full path + symlink resolution
+type -a python3
+
+# What package owns this file?
+dpkg -S /usr/bin/curl        # Debian/Ubuntu
+rpm -qf /usr/bin/curl        # RHEL/CentOS
 ```
 
-Output:
+---
 
-```text
-/usr/bin/python3
+## Quick reference
+
+```bash
+pwd                          # current directory
+ls -la <dir>                 # list with details
+cd <dir>                     # change directory
+find /etc -name "*.conf"     # find config files
+tail -f /var/log/syslog      # follow log live
+grep "pattern" <file>        # search in file
+df -h                        # disk space
+du -sh <dir>                 # directory size
+which <program>              # locate executable
 ```
-
-This tells him:
-
-* `/usr` holds OS-managed software
-* package managers control this space
-* admins should not manually edit files here
-
----
-
-## Why this layout matters in real systems
-
-Later, John joins a production incident call.
-
-The service is down.
-
-The team asks:
-
-* “Check logs” → `/var/log`
-* “Check config” → `/etc`
-* “Check app binaries” → `/opt`
-* “Check user scripts” → `/home`
-
-No guessing. Everyone knows where to look.
-
-That is the real value of the filesystem layout.
-
----
-
-## John’s final mental model
-
-John now thinks about Linux like this:
-
-* `/home` → humans
-* `/root` → superuser
-* `/bin`, `/sbin` → core commands
-* `/etc` → configuration
-* `/var` → changing data
-* `/opt` → applications
-* `/tmp` → temporary files
-* `/usr` → OS-managed software
-
-Linux did not choose this structure randomly.
-It chose it so **humans and automation could work together without confusion**.
-
----
-
-## Final takeaway
-
-Understanding the Linux filesystem is not about memorizing directories.
-It is about knowing **where responsibility lives**.
-
-Once John understands this, production systems stop feeling chaotic and start feeling organized.

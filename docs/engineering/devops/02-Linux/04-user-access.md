@@ -1,128 +1,194 @@
 ---
-layout: post
-title: "User Management in Linux Servers"
-subtitle: "Access in Linux Servers"
-categories: [devops]
-tags: [devops]
-topic: linux
+title: User Access
+sidebar_position: 5
+description: "Users, groups, sudo, and how to give people access without giving everyone root"
 ---
 
-# How Linux Server Access Is Set Up in Enterprises
+# User Access
 
-When an enterprise sets up its first Linux server, access control usually starts in the simplest possible way. The server runs Red Hat Enterprise Linux, the `root` user exists, and an administrator logs in directly to perform all tasks. At this stage, nothing feels wrong because only one person is using the system.
+You need to give a teammate access to a production server. You could add them to root. You won't do that, because then they can delete everything.
+
+Access control on Linux is built around users, groups, and sudo rules. The goal: every person and every application has only the access it needs, and no more.
 
 ---
 
-## John joins the company
+## Users and groups
 
-John joins the company as an application developer. To work on his application, he needs access to the Linux server. John raises an access request using the company’s access management tool, such as SailPoint, Saviynt, or an in-house system.
+Every process runs as a user. Every file has an owner. Permissions are enforced based on who you are.
 
-The Linux administrator creates a local user account for John and sets a password.
+There are two kinds of users:
+- **Human users** — people who SSH in (`ubuntu`, `deploy`, `alice`)
+- **Service accounts** — created for applications, never log in (`nginx`, `postgres`, `www-data`)
+
+Groups let you assign the same permissions to multiple users. Add a user to a group and they inherit the group's access.
 
 ```bash
-useradd -m john
-passwd john
+# Who am I?
+whoami
+id                           # full user + group info
+
+# All users on the system
+cat /etc/passwd
+
+# All groups
+cat /etc/group
+
+# Groups for a specific user
+groups alice
 ```
 
-This updates the standard Linux account files: `/etc/passwd` stores the user entry, `/etc/shadow` stores the password hash, and `/etc/group` records group membership. John is given the server address, a username, and a temporary password. He can now log in using SSH.
+---
+
+## Creating users
 
 ```bash
-ssh john@server
-```
+# Create a user with a home directory
+useradd -m -s /bin/bash alice
 
-John can access his home directory, but he cannot read system directories such as `/root`. This is expected and correct.
+# Set their password
+passwd alice
+
+# Create a service account (no home, no login shell)
+useradd --system --no-create-home --shell /bin/false appservice
+
+# Delete a user (keep home directory)
+userdel alice
+
+# Delete a user and their home directory
+userdel -r alice
+```
 
 ---
 
-## The first mistake: giving everyone sudo
-
-Very soon, John needs to start the application, run scripts, and check logs. The quickest solution seems to be adding John to sudo.
+## Groups and permissions
 
 ```bash
-usermod -aG wheel john
-```
+# Create a group
+groupadd developers
 
-Now John can become root using `sudo`. This works, but it introduces a serious problem. John is no longer just an application developer; he now has full control of the operating system. When a second developer joins, the same access is given again. At this point, multiple developers can act as root, and the server becomes fragile and unsafe.
+# Add a user to a group
+usermod -aG developers alice   # -a means append, not replace
+
+# Remove from a group
+gpasswd -d alice developers
+
+# Change file ownership
+chown alice:developers /app/config.txt
+
+# Make a directory writable by a group
+chmod 775 /app/
+chown root:developers /app/
+```
 
 ---
 
-## Introducing an application service account
+## sudo — controlled privilege escalation
 
-The first real application is deployed, and a new question appears: who should own the application and run it? The answer is neither a human user nor root. Applications should run under their own service accounts.
+`sudo` lets a user run specific commands as root without being root. The policy is in `/etc/sudoers`.
 
-The administrator creates a dedicated application user.
+Never edit `/etc/sudoers` directly. Use `visudo` — it validates syntax before saving.
 
 ```bash
-useradd -r -m -d /opt/app -s /sbin/nologin appsvc
-passwd -l appsvc
+# Allow alice to run any command as root
+# In /etc/sudoers:
+alice ALL=(ALL:ALL) ALL
+
+# Allow developers group to restart nginx
+%developers ALL=(ALL) /bin/systemctl restart nginx
+
+# Allow a deploy user to run deploy scripts without a password
+deploy ALL=(ALL) NOPASSWD: /opt/scripts/deploy.sh
 ```
-
-This account exists only to run the application. No one logs in as this user. Application files and logs are owned by `appsvc`, which cleanly separates application activity from human activity.
-
----
-
-## Giving developers the right access
-
-Developers like John need to manage the application, but they do not need root access. This is solved by using groups and sudo rules instead of direct privileges.
-
-A group is created for application administrators, and developers are added to it.
 
 ```bash
-groupadd app-admin
-usermod -aG app-admin john
+# Run a command as root
+sudo systemctl restart nginx
+
+# Switch to root shell
+sudo -i
+
+# Run as a different user
+sudo -u appservice /opt/app/start.sh
 ```
 
-A sudo rule is then defined.
+---
 
-File: `/etc/sudoers.d/app-admin`
+## Hands-on
 
-```text
-%app-admin ALL=(appsvc) ALL
-```
-
-Now John can run application commands as the application user without becoming root.
+### Create a user and test access
 
 ```bash
-sudo -u appsvc ./start.sh
+# Create a test user
+sudo useradd -m -s /bin/bash testuser
+sudo passwd testuser
+
+# Switch to that user
+sudo su - testuser
+
+# Try to read a root-owned file
+cat /etc/shadow         # Permission denied
+
+# Exit back
+exit
 ```
 
-The boundary is clear: developers manage the application, and the operating system remains protected.
-
----
-
-## Production servers and operations access
-
-When a production server is introduced, an operations team is responsible for system stability. These users need higher privileges than developers, but they still should not log in as root.
-
-An operations group is created, and sudo access is granted through that group.
+### Set up group-based access
 
 ```bash
-groupadd linux-admin
-usermod -aG linux-admin ops1
+# Create a group and directory
+sudo groupadd webteam
+sudo mkdir /var/www/myapp
+sudo chown root:webteam /var/www/myapp
+sudo chmod 775 /var/www/myapp
+
+# Add testuser to the group
+sudo usermod -aG webteam testuser
+
+# Switch to testuser and test
+sudo su - testuser
+ls /var/www/myapp               # should work
+touch /var/www/myapp/index.html # should work
+cat /etc/shadow                 # still blocked
+exit
 ```
 
-File: `/etc/sudoers.d/linux-admin`
+### Grant limited sudo
 
-```text
-%linux-admin ALL=(ALL) ALL
+```bash
+# Open sudoers safely
+sudo visudo
+
+# Add this line to allow testuser to restart a service
+# testuser ALL=(ALL) NOPASSWD: /bin/systemctl restart nginx
+
+# Test it
+sudo su - testuser
+sudo systemctl restart nginx     # works
+sudo systemctl stop nginx        # works
+sudo cat /etc/shadow             # blocked (not in the rule)
+exit
 ```
 
-At the same time, direct root login is disabled in `/etc/ssh/sshd_config`. Root exists, but it is accessed only through sudo, ensuring every action is logged.
+### Cleanup
+
+```bash
+sudo userdel -r testuser
+sudo groupdel webteam
+sudo rm -rf /var/www/myapp
+```
 
 ---
 
-## Scaling the model
+## Quick reference
 
-As the company grows, manually creating users on every server becomes unmanageable. At this point, the enterprise integrates Linux servers with a central directory such as LDAP or Active Directory and connects it to an IGA tool.
-
-Linux no longer manages users directly. It trusts directory users and groups, configured through files like `/etc/sssd/sssd.conf` and `/etc/nsswitch.conf`. Access is now granted by adding a user to the correct group in the directory, and the change applies consistently across all servers.
-
----
-
-## Final state
-
-In the final, stable setup, people log in using personal accounts, applications run as service users, and root access is available only through sudo. Groups define what users can do, and all access is auditable through logs such as `/var/log/secure` and `journalctl`.
-
-This structure exists because enterprises had to move from “just give root” to a model that scales safely, supports audits, and clearly separates human access from application execution.
-
----
+```bash
+whoami / id                      # current user info
+useradd -m -s /bin/bash <user>   # create user with home
+passwd <user>                    # set password
+usermod -aG <group> <user>       # add to group
+userdel -r <user>                # delete user + home
+groupadd <group>                 # create group
+chown user:group <file>          # change ownership
+sudo visudo                      # edit sudoers safely
+sudo -u <user> <command>         # run as another user
+```

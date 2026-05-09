@@ -1,383 +1,161 @@
 ---
-title: DNS Basics
-toc:
-  max_depth: 2
+title: DNS
+sidebar_position: 3
+description: "How domain names resolve to IP addresses — DNS records, resolution flow, and how to debug it"
 ---
 
-# DNS Basics
-## How names become IP addresses
+# DNS
 
-John now has machines talking to each other across networks.  
-Networking works.
+Your app talks to `db.internal`. At some point a request fails with "connection refused." You check the database — it's fine. Then you check the IP. The IP is fine. Then someone tells you the hostname changed.
 
-But there is still a problem for John.
-
-Communicating using **IP addresses** is painful.  
-IPs are hard to remember and do not explain what a machine actually does.
-
-This is where **DNS** comes in.
+DNS is how names become addresses. When it breaks, nothing works, and the errors point you in the wrong direction. Understanding DNS means you can debug it in under a minute instead of an hour.
 
 ---
 
-## The problem (why DNS exists)
+## How DNS resolution works
 
-John has a database server with this IP:
-
+```mermaid
+sequenceDiagram
+    Client->>Local DNS: What is the IP for api.example.com?
+    Local DNS->>Root DNS: Who handles .com?
+    Root DNS-->>Local DNS: ns1.verisign.com
+    Local DNS->>TLD DNS: Who handles example.com?
+    TLD DNS-->>Local DNS: ns1.example.com
+    Local DNS->>Authoritative DNS: What is api.example.com?
+    Authoritative DNS-->>Local DNS: 93.184.216.34
+    Local DNS-->>Client: 93.184.216.34
 ```
 
-192.168.1.1
-
-```
-
-He can reach it, but:
-
-- The IP does not say what the machine is
-- Humans do not remember IPs easily
-- IPs can change
-
-John wants to say:
-> “Connect to the database server”
-
-not:
-> “Connect to 192.168.1.1”
+In practice, your machine almost never goes through the full chain. Results are cached. Your `/etc/resolv.conf` points to a local resolver (often your router or a company DNS server) that handles the lookup and caches the result.
 
 ---
 
-## Name resolution (the basic idea)
+## Key files
 
-**Name resolution** means:
-> Converting a name into an IP address
-
-Example:
+**`/etc/resolv.conf`** — which DNS server to ask:
+```
+nameserver 8.8.8.8
+nameserver 8.8.4.4
 ```
 
-db  →  192.168.1.1
-
-````
-
-Linux always performs name resolution before connecting to a host.
-
----
-
-## `/etc/hosts` (local name resolution)
-
-John starts with the simplest method.
-
-He edits:
-
-```bash
-/etc/hosts
-````
-
-Adds:
-
-```text
-192.168.1.1 db
+**`/etc/hosts`** — local name overrides (checked before DNS):
+```
+127.0.0.1   localhost
+192.168.1.10  db.internal  db
 ```
 
-Now he runs:
-
-```bash
-ping db
+**`/etc/nsswitch.conf`** — resolution order:
 ```
-
-It works.
-
-Linux replaced `db` with `192.168.1.1`.
-
----
-
-## Why `/etc/hosts` does not scale
-
-`/etc/hosts` works, but it has serious limitations.
-
-* It is **local** to one system
-* Another system may use a different name for the same IP
-* IP changes require updating every machine
-* Wrong entries can silently break communication
-
-This approach works only for:
-
-* Very small setups
-* Temporary test systems
-
-For large environments, this **does not scale**.
-
----
-
-## DNS server (central source of truth)
-
-Instead of every machine maintaining its own mapping, John introduces a **DNS server**.
-
-Now:
-
-* One system stores name → IP mappings
-* All hosts query it
-* Changes are made in one place
-
-This becomes the **source of truth**.
-
----
-
-## `/etc/resolv.conf` (where Linux looks for DNS)
-
-Each Linux host must know **which DNS server to ask**.
-
-John checks:
-
-```bash
-cat /etc/resolv.conf
-```
-
-He adds:
-
-```text
-nameserver 192.168.1.53
-```
-
-Now:
-
-* Every hostname lookup goes to the DNS server
-* `/etc/hosts` is no longer the only source
-
----
-
-## Local override still exists
-
-Even with DNS configured, `/etc/hosts` still works.
-
-John can add temporary entries:
-
-```text
-192.168.1.100 temp-db
-```
-
-No DNS change required.
-
-This is useful for:
-
-* Testing
-* Temporary servers
-* Debugging
-
----
-
-## Resolution order (who is asked first)
-
-Linux follows an **order** when resolving names.
-
-That order is defined in:
-
-```bash
-/etc/nsswitch.conf
-```
-
-John checks the `hosts` line:
-
-```text
 hosts: files dns
 ```
 
-Meaning:
-
-1. Check `/etc/hosts`
-2. If not found, query DNS
-
-This order can be changed, but the default is sensible.
+`files` is checked first (meaning `/etc/hosts`), then `dns`. Add an entry to `/etc/hosts` and it overrides whatever DNS says.
 
 ---
 
-## DNS for the internet
+## DNS record types
 
-Internal DNS servers cannot resolve internet domains by themselves.
-
-To fix this, John configures DNS forwarding.
-
-The DNS server forwards unknown requests to public DNS servers like:
-
-```
-8.8.8.8
-8.8.4.4
-```
-
-Now:
-
-* Internal names resolve internally
-* External names resolve via the internet
+| Type | What it maps |
+|------|-------------|
+| A | Hostname → IPv4 address |
+| AAAA | Hostname → IPv6 address |
+| CNAME | Alias → another hostname |
+| MX | Domain → mail server |
+| TXT | Domain → arbitrary text (used for verification, SPF, DKIM) |
+| NS | Domain → authoritative nameservers |
 
 ---
 
-## Domain names (how names are structured)
+## Hands-on
 
-DNS names are hierarchical.
-
-Example:
-
-```
-apps.google.com
-```
-
-Breakdown:
-
-* `.com` → top-level domain
-* `google` → domain
-* `apps` → subdomain
-
-Other top-level domains:
-
-* `.com` → commercial
-* `.net` → network
-* `.org` → organization
-* `.edu` → education
-* `.io` → Indian Ocean territory (popular in tech)
-
----
-
-## How DNS resolution actually happens
-
-When John accesses:
-
-```
-apps.google.com
-```
-
-Resolution flow:
-
-1. Organization DNS checks cache
-2. If not found, asks root DNS
-3. Root DNS points to `.com` DNS
-4. `.com` DNS points to Google DNS
-5. Google DNS returns IP for `apps.google.com`
-
-The result is cached so the next request is faster.
-
----
-
-## Search domains (short names inside organizations)
-
-Inside John’s company, the database server is named:
-
-```
-db.mycompany.com
-```
-
-John wants to type:
+### Resolve a domain
 
 ```bash
-ping db
+# Simple lookup
+nslookup google.com
+
+# Detailed lookup with record type
+dig google.com A
+dig google.com AAAA
+dig google.com MX
+
+# Check who is authoritative for a domain
+dig google.com NS
+
+# Query a specific DNS server
+dig @8.8.8.8 google.com A
+
+# Short output — just the answer
+dig +short google.com A
 ```
 
-Linux supports this using **search domains**.
-
-In `/etc/resolv.conf`:
-
-```text
-search mycompany.com
-```
-
-Now:
-
-* `db` automatically expands to `db.mycompany.com`
-* Multiple search domains can be configured
-
----
-
-## DNS record types (what DNS stores)
-
-DNS does not store just one type of record.
-
-### A record
-
-Maps hostname to IPv4 address.
-
-```
-db.mycompany.com → 192.168.1.1
-```
-
----
-
-### AAAA record
-
-Maps hostname to IPv6 address.
-
-```
-db.mycompany.com → fe80::1
-```
-
----
-
-### CNAME record
-
-Creates an alias.
-
-```
-web.mycompany.com → app.mycompany.com
-```
-
-Used when:
-
-* One service has multiple names
-* Backends change, names do not
-
----
-
-## Testing DNS resolution
-
-John tests DNS directly.
-
-### `nslookup`
+### Test local name resolution
 
 ```bash
-nslookup db.mycompany.com
+# Add a test entry to /etc/hosts
+echo "127.0.0.1 myapp.local" | sudo tee -a /etc/hosts
+
+# Resolve it
+ping myapp.local
+dig myapp.local
+nslookup myapp.local
+
+# Confirm it resolves locally, not from DNS
+dig myapp.local | grep SERVER    # should show 127.0.0.53 or your local resolver
 ```
 
-This queries DNS servers directly.
-It **ignores `/etc/hosts`**.
-
----
-
-### `dig`
-
+Clean up:
 ```bash
-dig db.mycompany.com
+sudo sed -i '/myapp.local/d' /etc/hosts
 ```
 
-This provides:
-
-* Full DNS response
-* Useful debugging details
-
-Preferred tool for troubleshooting.
-
----
-
-## What John understands now
-
-* IPs are hard to use directly
-* Name resolution converts names to IPs
-* `/etc/hosts` is local and limited
-* DNS is centralized and scalable
-* Resolution order matters
-* DNS caching improves performance
-* Search domains simplify internal usage
-
-DNS works because **everyone agrees on where truth lives**.
-
----
-
-## Quick cheat sheet
+### Diagnose a DNS failure
 
 ```bash
-# Local name mapping
-/etc/hosts
+# Can I reach the DNS server?
+ping 8.8.8.8                     # test connectivity first
 
-# DNS server config
-/etc/resolv.conf
+# Does DNS resolve public names?
+dig +short google.com
 
-# Resolution order
-/etc/nsswitch.conf
+# Does it resolve internal names?
+dig +short db.internal
 
-# Test DNS
-nslookup hostname
-dig hostname
+# What DNS server am I using?
+cat /etc/resolv.conf
+resolvectl status                 # on systemd-resolved systems
+
+# Try a manual lookup against a known-good server
+dig @8.8.8.8 google.com
+
+# If @8.8.8.8 works but your configured DNS doesn't, it's a server issue, not a network issue.
+```
+
+### Check DNS caching and TTL
+
+```bash
+# TTL shows how long this record will be cached
+dig google.com A | grep -A 3 "ANSWER SECTION"
+```
+
+Output:
+```
+;; ANSWER SECTION:
+google.com.  60  IN  A  142.250.80.46
+```
+
+`60` means the record expires in 60 seconds. After that, another DNS lookup is needed. During a migration, low TTL = fast propagation. High TTL = slow, but fewer lookups.
+
+---
+
+## Quick reference
+
+```bash
+dig +short <domain>              # quick IP lookup
+dig <domain> <type>              # lookup specific record type
+dig @<server> <domain>           # query specific DNS server
+nslookup <domain>                # simple lookup
+cat /etc/resolv.conf             # which DNS server am I using?
+cat /etc/hosts                   # local overrides
+resolvectl status                # systemd-resolved status
 ```

@@ -16,10 +16,7 @@ That gap — between writing code and running it at scale — is what DevOps exi
 
 This is a hands-on engineering reference built around the tools used in real production environments.
 
-Each section follows a consistent structure:
-
-- **Concepts** — how a tool or system works and why it exists
-- **Hands-on** — step-by-step labs that run locally on your machine
+Every topic combines the concept and the hands-on lab in one place. Read it and run it. Nothing is split across separate concept and lab pages.
 
 Everything here is locally runnable. No enterprise accounts. No paid cloud required to follow along.
 

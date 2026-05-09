@@ -1,118 +1,122 @@
 ---
 title: What is Git?
-sidebar_position: 1
+sidebar_position: 2
+description: "How Git works, why it was built, and your first repository"
 ---
 
-# Git Introduction
+# What is Git?
 
-Git is a version control system.
-It tracks changes to files over time and records how a codebase evolves.
+Before version control, teams shared code by copying folders: `project`, `project_final`, `project_final_v2`. Files got overwritten, changes were lost, and parallel work was unsafe.
 
-Instead of storing only the latest version of a file, Git keeps a full history.
-This history allows teams to understand what changed, when it changed, and who changed it.
-
-Before version control, teams shared code by copying folders like:
-`project`, `project_final`, `project_final_v2`.
-
-This approach breaks very quickly.
-Files get overwritten, changes are lost, and parallel work becomes unsafe.
-
-Git exists to solve this problem in a structured and reliable way.
+Git solves this. It tracks every change to every file, lets multiple people work on the same codebase simultaneously, and lets you go back to any previous state.
 
 ---
 
-## What Git actually tracks
+## How Git works
 
-Git does not track projects or folders as a single unit.
-It tracks individual files and their state.
+Git does not store diffs. It stores **snapshots**.
 
-At specific points in time, Git takes a snapshot of files.
-Each snapshot is called a commit.
+Each snapshot is called a **commit**. A commit contains the exact state of every tracked file, who made the change, when, and a pointer to the previous commit. Commits form a chain — that chain is the history.
 
-A commit contains:
-- the exact state of files
-- the author of the change
-- the time the change was recorded
-- a reference to the previous commit
+```mermaid
+graph LR
+    C1[Commit A] --> C2[Commit B] --> C3[Commit C]
+    C3 --> HEAD
+```
 
-Commits are linked together.
-This chain forms the history of the project.
+**Git is not GitHub.** Git runs on your local machine and tracks history. GitHub is a service that hosts Git repositories and adds collaboration tools like pull requests and code review. You can use Git without GitHub.
 
 ---
 
-## Git is not GitHub
+## Hands-on
 
-Git and GitHub are often confused.
-They are not the same thing.
+### Create your first repository
 
-Git is a tool.
-GitHub is a service.
+```bash
+# Initialize a new git repository
+mkdir my-project && cd my-project
+git init
 
-Git runs on your local machine.
-GitHub runs on remote servers.
+# Check the current state
+git status
+```
 
-You can use Git without GitHub.
-You cannot use GitHub without Git.
+```
+On branch main
 
-If GitHub is unavailable, your local Git repository still works.
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+```
+
+### Make your first commit
+
+```bash
+# Create a file
+echo "# My Project" > README.md
+
+# Stage it (tell git to include it in the next snapshot)
+git add README.md
+
+# Commit — create the snapshot
+git commit -m "Initial commit"
+
+# View the history
+git log
+```
+
+```
+commit a3f9c1d... (HEAD -> main)
+Author: You <you@example.com>
+Date:   Fri May 9 10:00:00 2025
+
+    Initial commit
+```
+
+### Modify and track a change
+
+```bash
+echo "This project does something." >> README.md
+
+# See what changed
+git diff
+
+# Stage and commit
+git add README.md
+git commit -m "Add project description"
+
+# View the two-commit history
+git log --oneline
+```
+
+```
+b7e2a4c (HEAD -> main) Add project description
+a3f9c1d Initial commit
+```
+
+### Inspect a commit
+
+```bash
+# See what a specific commit changed
+git show a3f9c1d
+
+# Compare two commits
+git diff a3f9c1d b7e2a4c
+```
 
 ---
 
-## Why Git was needed
+## Quick reference
 
-Before Git, centralized tools like SVN were common.
-
-In centralized systems:
-- one server stores the full history
-- developers work with partial copies
-- most actions require network access
-
-If the server is slow or unavailable, work slows or stops.
-
-Git removes this dependency.
-
----
-
-## Distributed version control
-
-Git is distributed because every clone is a full repository.
-
-When you clone a repository, you receive:
-- all commits
-- all branches
-- the complete history
-
-Your local machine is not just a client.
-It is a complete copy of the repository.
-
-Remote repositories are just additional copies.
-
----
-
-## Short history of Git
-
-Git was created by Linus Torvalds in 2005 to manage the Linux kernel.
-
-The kernel has thousands of contributors working in parallel.
-Existing tools were too slow and fragile for this scale.
-
-Git was designed to be fast, reliable, and safe for parallel work.
-These design decisions still influence Git today.
-
----
-
-## Git vs GitHub
-
-Git:
-- version control system
-- runs locally
-- tracks file history
-- works offline
-
-GitHub:
-- hosts Git repositories
-- provides collaboration tools
-- enables pull requests and reviews
-
-Git manages history.
-GitHub manages collaboration.
+```bash
+git init                         # create a new repository
+git status                       # what is staged / modified / untracked
+git add <file>                   # stage a file
+git add .                        # stage everything
+git commit -m "message"          # create a snapshot
+git log                          # full history
+git log --oneline                # compact history
+git diff                         # unstaged changes
+git diff --staged                # staged changes
+git show <commit>                # show a specific commit
+```

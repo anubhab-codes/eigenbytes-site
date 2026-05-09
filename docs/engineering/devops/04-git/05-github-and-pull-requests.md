@@ -1,6 +1,6 @@
 ---
 title: GitHub and Pull Requests
-sidebar_position: 4
+sidebar_position: 6
 ---
 
 # Working with GitHub and Pull Requests

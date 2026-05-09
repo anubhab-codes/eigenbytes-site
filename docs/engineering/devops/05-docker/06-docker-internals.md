@@ -1,6 +1,7 @@
 ---
 title: Docker Internals
-sidebar_position: 5
+sidebar_position: 7
+description: "Namespaces, cgroups, and copy-on-write — how containers actually work"
 ---
 
 # Docker Internals (Namespaces, Cgroups, and Layers)

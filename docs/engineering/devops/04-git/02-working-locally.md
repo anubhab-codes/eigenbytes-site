@@ -1,6 +1,6 @@
 ---
 title: Working Locally with Git
-sidebar_position: 1
+sidebar_position: 3
 ---
 
 # Working Locally with Git

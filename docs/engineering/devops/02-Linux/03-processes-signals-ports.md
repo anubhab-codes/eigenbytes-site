@@ -1,167 +1,179 @@
 ---
-layout: post
-title: "Process, Signals and Ports"
-subtitle: "Linux Operations 101"
-categories: [devops]
-tags: [devops]
-topic: linux
+title: Processes, Signals, and Ports
+sidebar_position: 4
+description: "What is running, how to control it, and what it is listening on"
 ---
+
 # Processes, Signals, and Ports
 
-## How Linux Actually Runs Things
+Something is using port 8080. Your app won't start because something else already has it. Or a process is hung and not responding to Ctrl+C. Or you need to kill the right process without taking down the wrong one.
 
-If you want to understand Linux beyond commands, you must understand three ideas: **processes**, **signals**, and **ports**.
-These are not advanced topics. They are the *core mechanics* of how Linux runs anything at all.
-
-Once these are clear, many things that look confusing—hung services, failed restarts, port conflicts, Kubernetes behaviour—start making sense.
+These three concepts — processes, signals, and ports — are how Linux manages running programs. Know them and you can find anything running on a server and control it.
 
 ---
 
-## What Linux means by a “process”
+## Processes
 
-In Linux, a process is simply **a running program**.
-
-When you type a command like:
+Every running program is a process with a unique PID (process ID). Processes are organized in a tree: every process has a parent. The root of the tree is PID 1 — `systemd` on modern Linux systems.
 
 ```bash
-ls
-```
+# All running processes
+ps aux
 
-Linux does not “run ls” in a magical way. The kernel performs a very specific sequence of actions. It creates a new process, assigns it a unique number called a **PID**, runs the program in memory, and destroys the process once the work is done.
-
-This same model applies everywhere. A shell command, a Python script, a database, a web server, or a container—all of them are processes from Linux’s point of view. Linux does not care what the program does; it only manages how it runs.
-
----
-
-## Observing processes instead of guessing
-
-To understand what is happening on a system, you do not guess. You **observe processes**.
-
-A command like:
-
-```bash
-ps -ef
-```
-
-shows you what is running at that moment. It tells you which user started a process, which process started it, and what command was used. This matters because Linux always knows **who started what**, and responsibility is never ambiguous.
-
-For live systems, administrators usually use:
-
-```bash
+# Interactive process viewer (q to exit)
 top
+
+# Better interactive viewer
+htop        # may need to install: apt install htop
+
+# Process tree — see parent-child relationships
+pstree -p
 ```
 
-This answers practical questions like why a server feels slow or which process is consuming memory. Performance troubleshooting in Linux almost always begins by looking at processes, not logs.
+`ps aux` output:
+```
+USER       PID  %CPU  %MEM  COMMAND
+root         1   0.0   0.1  /lib/systemd/systemd
+root       812   0.0   0.2  /usr/sbin/sshd
+ubuntu    4502   0.1   0.5  nginx: master process
+```
 
----
-
-## Parent and child processes (why structure matters)
-
-Processes in Linux are not random. They form a **tree**.
-
-When one process starts another, the first becomes the parent and the second becomes the child. For example, a shell may start a Python process, which in turn starts another helper process. Linux keeps track of this entire relationship.
-
-This structure explains many behaviours. If a parent process dies, child processes may also stop, or they may be adopted by another process. This is why long-running applications should not be started casually in the background.
-
----
-
-## PID 1 and why systemd exists
-
-Every Linux system has a special process with PID 1. This is the **first process started by the kernel**, and on modern systems it is `systemd`.
-
-The role of PID 1 is not to run applications directly. Its role is to **manage other processes**. It starts services, restarts them if they crash, handles shutdown, and cleans up orphaned processes. Without PID 1 doing this work, Linux would slowly become unstable.
-
-This is why systemd is not optional on modern servers. It exists to keep the process tree healthy.
-
----
-
-## Foreground and background processes
-
-When you run a command normally, it runs in the foreground. Your terminal stays attached to the process, and you cannot do anything else until it exits.
-
-When you append `&`, the process runs in the background, detached from your terminal. However, this does not mean the process is managed. It simply means your shell is no longer waiting for it.
-
-This distinction matters because production services should never depend on terminals. They should be managed by systemd, not by background execution.
-
----
-
-## Signals: how Linux talks to processes
-
-Linux does not control processes by force. It communicates with them using **signals**.
-
-A signal is a message sent by the kernel to a process. The message tells the process what is happening or what is expected of it. For example, when you press Ctrl+C, Linux sends a signal asking the process to stop.
-
-When you run:
+Find a specific process:
 
 ```bash
-kill <PID>
+ps aux | grep nginx
+pgrep nginx           # just the PID
+pgrep -a nginx        # PID + full command
 ```
 
-Linux sends a polite signal requesting the process to terminate. Well-written applications respond by cleaning up and exiting gracefully. If a process ignores this request, a stronger signal can be sent that forces it to stop immediately.
-
-The important idea here is not memorizing signal numbers. The important idea is understanding that Linux **asks first**, and **forces only as a last resort**.
-
 ---
 
-## Why signals matter in real systems
+## Signals
 
-In production systems, signals separate good applications from bad ones.
+A signal is a message the OS sends to a process. Most processes handle signals to start graceful shutdown or reload config.
 
-A good application listens for termination signals, closes files, releases ports, and exits cleanly. A poorly written application ignores signals, leaves resources behind, and causes unpredictable behaviour. Many “mysterious” production issues are simply applications mishandling signals.
+| Signal | Number | Meaning |
+|--------|--------|---------|
+| SIGTERM | 15 | Please shut down cleanly |
+| SIGKILL | 9 | Terminate immediately — cannot be caught or ignored |
+| SIGHUP | 1 | Reload config (many daemons respond to this) |
 
-This is also why platforms like Kubernetes rely heavily on signals during pod shutdown.
-
----
-
-## Ports: how processes expose services
-
-A port is not a process. A port is simply a **number managed by the kernel**.
-
-When a server application starts, it asks the kernel to associate itself with a port. If the kernel grants the request, traffic arriving on that port is forwarded to the process. If another process already owns the port, the request fails.
-
-This explains why errors like “address already in use” occur. Linux is preventing two processes from listening on the same port at the same time.
-
----
-
-## Understanding port ownership
-
-To troubleshoot network issues, you must connect ports back to processes.
-
-A command like:
+Always try SIGTERM first. SIGKILL is the last resort — it leaves no chance for cleanup, open files flushing, or connection draining.
 
 ```bash
-ss -lntp
+# Graceful stop
+kill <PID>                   # sends SIGTERM by default
+kill -15 <PID>               # explicit SIGTERM
+
+# Force kill
+kill -9 <PID>                # SIGKILL
+
+# Kill by name
+pkill nginx                  # sends SIGTERM to all nginx processes
+pkill -9 nginx               # SIGKILL all nginx processes
+
+# Reload config without restart
+kill -HUP <PID>
 ```
 
-shows which processes are listening on which ports. This allows you to answer concrete questions: which application is using port 8080, why a service failed to start, or whether an old process is still running.
+---
 
-Ports never exist on their own. They always belong to processes.
+## Ports
+
+A port is a number the kernel uses to route incoming network traffic to the right process. A process **binds** to a port — it registers ownership of that port with the kernel.
+
+Ports 1–1023 are privileged — only root can bind to them. Ports 1024–65535 are unprivileged — any user can bind to them.
+
+Common ports:
+| Port | Service |
+|------|---------|
+| 22 | SSH |
+| 80 | HTTP |
+| 443 | HTTPS |
+| 3306 | MySQL |
+| 5432 | PostgreSQL |
+| 6379 | Redis |
 
 ---
 
-## How systemd, signals, and ports work together
+## Hands-on
 
-When you stop a service using systemd, Linux follows a controlled sequence. Systemd sends a termination signal, waits for the process to exit cleanly, and only forces termination if the process refuses to stop. When the process exits, its ports are automatically released.
+### Find what is running and on which port
 
-This predictable behaviour is the reason modern Linux systems remain stable even under frequent restarts and deployments.
+```bash
+# Show all listening TCP ports and which process owns them
+ss -tlnp
+
+# Same but with UDP
+ss -ulnp
+
+# Old-school equivalent
+netstat -tlnp          # if netstat is installed
+
+# Find what is on port 8080
+ss -tlnp | grep :8080
+lsof -i :8080          # shows PID + process name
+```
+
+### Start an HTTP server and observe it
+
+```bash
+# Start a Python HTTP server on port 8080
+python3 -m http.server 8080 &
+
+# Find its PID
+pgrep -a python3
+
+# Confirm it is listening
+ss -tlnp | grep 8080
+
+# Check what else is on the same port (should be empty)
+lsof -i :8080
+```
+
+Expected output from `ss -tlnp | grep 8080`:
+```
+LISTEN  0  5  *:8080  *:*  users:(("python3",pid=4892,fd=3))
+```
+
+### Stop the process
+
+```bash
+# Graceful stop
+kill $(pgrep python3)
+
+# Confirm it stopped
+ss -tlnp | grep 8080    # should be empty
+```
+
+### Investigate a stuck process
+
+```bash
+# See all processes by memory usage
+ps aux --sort=-%mem | head -10
+
+# See all processes by CPU usage
+ps aux --sort=-%cpu | head -10
+
+# Detailed info about a specific PID
+cat /proc/<PID>/status | head -20
+ls -la /proc/<PID>/fd/   # open file descriptors
+```
 
 ---
 
-## Final way to think about it
+## Quick reference
 
-Linux runs programs as processes.
-It communicates with them using signals.
-Processes expose functionality to the network using ports.
+```bash
+ps aux                       # all processes
+ps aux | grep <name>         # find process
+pgrep <name>                 # PID of named process
+top / htop                   # interactive viewer
 
-Nothing more, nothing less.
+kill <PID>                   # graceful stop
+kill -9 <PID>                # force kill
+pkill <name>                 # kill by name
 
-If you understand this model, Linux stops feeling opaque and starts feeling logical.
-
----
-
-## Final takeaway
-
-Linux does not hide how things run. It exposes processes, signals, and ports so that you can reason about system behaviour instead of guessing. This transparency is the reason Linux scales so well in servers, containers, and cloud platforms.
-
-
-This version should now feel **connected, readable, and intentional**, not like copied documentation.
+ss -tlnp                     # listening TCP ports
+lsof -i :<port>              # what is on a port
+```

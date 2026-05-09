@@ -1,6 +1,7 @@
 ---
 title: Docker Networking
-sidebar_position: 4
+sidebar_position: 6
+description: "How containers talk to each other and to the outside world"
 ---
 
 # Docker Networking

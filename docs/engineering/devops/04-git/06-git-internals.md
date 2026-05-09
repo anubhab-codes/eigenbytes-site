@@ -1,6 +1,6 @@
 ---
 title: Git Internals
-sidebar_position: 2
+sidebar_position: 7
 ---
 
 # Git Internals (How Git Works Under the Hood)
