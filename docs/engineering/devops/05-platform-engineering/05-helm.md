@@ -86,6 +86,10 @@ You can have multiple releases of the same chart. `helm install prod my-chart` a
 
 ## Hands-on
 
+:::info Lab files
+Fork [eigenbytes-devops-labs](https://github.com/anubhab-codes/eigenbytes-devops-labs) — a complete chart is ready in `05-platform-engineering/helm/my-app/`. Skip the `helm create` step and deploy directly.
+:::
+
 ### Create a chart
 
 ```bash
@@ -197,3 +201,7 @@ helm show values <chart>                     # show default values
 helm template <release> <chart>             # render templates without deploying
 helm diff upgrade <release> <chart>         # show what would change (plugin)
 ```
+
+---
+
+> Lab files: [eigenbytes-devops-labs/05-platform-engineering/helm](https://github.com/anubhab-codes/eigenbytes-devops-labs/tree/main/05-platform-engineering/helm)

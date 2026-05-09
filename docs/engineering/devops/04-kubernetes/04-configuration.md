@@ -41,6 +41,10 @@ Use volume mounts for config files or anything that needs live updates.
 
 ## Hands-on
 
+:::info Lab files
+Fork [eigenbytes-devops-labs](https://github.com/anubhab-codes/eigenbytes-devops-labs) — manifests for this lab are in `04-kubernetes/configuration/`: `configmap-demo.yaml`, `secret-demo.yaml`, and `vol-demo.yaml`.
+:::
+
 ### Create a ConfigMap
 
 ```bash
@@ -165,3 +169,7 @@ kubectl describe configmap <name>
 kubectl edit configmap <name>
 kubectl delete configmap <name>
 ```
+
+---
+
+> Lab files: [eigenbytes-devops-labs/04-kubernetes/configuration](https://github.com/anubhab-codes/eigenbytes-devops-labs/tree/main/04-kubernetes/configuration)

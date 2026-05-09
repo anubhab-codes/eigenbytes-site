@@ -179,6 +179,10 @@ docker build --no-cache -t test . 2>&1 | head -5
 
 ## Hands-on: harden an existing image
 
+:::info Lab files
+Fork [eigenbytes-devops-labs](https://github.com/anubhab-codes/eigenbytes-devops-labs) — files for this lab are in `03-containers/production/`. `Dockerfile.insecure` and `Dockerfile.hardened` are ready to build and diff.
+:::
+
 ```bash
 # 1. Build the default image (as root, full size)
 cat > Dockerfile.before << 'EOF'
@@ -238,3 +242,7 @@ docker images                           # see sizes
 docker history <image>                  # which layers are large
 docker image prune                      # remove unused images
 ```
+
+---
+
+> Lab files: [eigenbytes-devops-labs/03-containers/production](https://github.com/anubhab-codes/eigenbytes-devops-labs/tree/main/03-containers/production)

@@ -99,6 +99,10 @@ provider "aws" {
 
 ## Hands-on: Terraform with Docker
 
+:::info Lab files
+Fork [eigenbytes-devops-labs](https://github.com/anubhab-codes/eigenbytes-devops-labs) — the complete Terraform config is in `05-platform-engineering/terraform/docker-demo/`. Run `terraform init && terraform apply` immediately, no setup needed.
+:::
+
 You can run Terraform locally without a cloud account using the Docker provider.
 
 ```bash
@@ -250,3 +254,7 @@ terraform import <resource> <id>   # import existing resource into state
 terraform fmt                      # format code
 terraform validate                 # validate configuration
 ```
+
+---
+
+> Lab files: [eigenbytes-devops-labs/05-platform-engineering/terraform/docker-demo](https://github.com/anubhab-codes/eigenbytes-devops-labs/tree/main/05-platform-engineering/terraform/docker-demo)

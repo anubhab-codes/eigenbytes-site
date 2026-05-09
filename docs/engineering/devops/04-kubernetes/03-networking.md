@@ -41,6 +41,10 @@ graph TD
 
 ## Hands-on
 
+:::info Lab files
+Fork [eigenbytes-devops-labs](https://github.com/anubhab-codes/eigenbytes-devops-labs) — the Ingress manifest for this lab is in `04-kubernetes/networking/ingress.yaml`.
+:::
+
 ### ClusterIP — internal communication
 
 ```bash
@@ -134,3 +138,7 @@ kubectl describe service <name>
 kubectl patch svc <name> -p '{"spec":{"type":"NodePort"}}'
 kubectl delete service <name>
 ```
+
+---
+
+> Lab files: [eigenbytes-devops-labs/04-kubernetes/networking](https://github.com/anubhab-codes/eigenbytes-devops-labs/tree/main/04-kubernetes/networking)

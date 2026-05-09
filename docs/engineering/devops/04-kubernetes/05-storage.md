@@ -37,6 +37,10 @@ The pod mounts the PVC. The pod doesn't know or care where the actual storage li
 
 ## Hands-on
 
+:::info Lab files
+Fork [eigenbytes-devops-labs](https://github.com/anubhab-codes/eigenbytes-devops-labs) — manifests for this lab are in `04-kubernetes/storage/`: `emptydir-demo.yaml`, `pvc-demo.yaml`, and `pvc-reader.yaml`.
+:::
+
 ### emptyDir — shared scratch space
 
 Save as `emptydir-demo.yaml`:
@@ -175,3 +179,7 @@ kubectl describe pvc <name>               # check binding status
 kubectl get storageclass                  # list available storage classes
 kubectl delete pvc <name>                 # release storage claim
 ```
+
+---
+
+> Lab files: [eigenbytes-devops-labs/04-kubernetes/storage](https://github.com/anubhab-codes/eigenbytes-devops-labs/tree/main/04-kubernetes/storage)

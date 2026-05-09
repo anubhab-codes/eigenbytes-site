@@ -199,6 +199,10 @@ docker network connect myapp <container>  # add container to network
 
 ## Hands-on: build and run a full app
 
+:::info Lab files
+Fork [eigenbytes-devops-labs](https://github.com/anubhab-codes/eigenbytes-devops-labs) — files for this lab are in `03-containers/flask-app/`. Skip the file creation steps below and use those instead.
+:::
+
 ```bash
 # 1. Create app files
 mkdir flask-demo && cd flask-demo
@@ -292,3 +296,7 @@ docker network create <name>            # create
 docker network ls                       # list
 --network <name>                        # attach container
 ```
+
+---
+
+> Lab files: [eigenbytes-devops-labs/03-containers/flask-app](https://github.com/anubhab-codes/eigenbytes-devops-labs/tree/main/03-containers/flask-app)

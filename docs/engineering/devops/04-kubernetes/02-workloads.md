@@ -84,6 +84,10 @@ kubectl get pods -l app=demo
 
 ## StatefulSet
 
+:::info Lab files
+Fork [eigenbytes-devops-labs](https://github.com/anubhab-codes/eigenbytes-devops-labs) — ready-to-apply manifests for this section are in `04-kubernetes/workloads/`: `statefulset.yaml` and `cronjob.yaml`.
+:::
+
 Use StatefulSet when your pods need:
 - **Stable names** — `pod-0`, `pod-1`, `pod-2` not random hashes
 - **Stable DNS** — `pod-0.service.namespace.svc.cluster.local` survives restarts
@@ -215,3 +219,7 @@ kubectl create job <name> --image=<image> -- <command>
 kubectl create cronjob <name> --image=<image> --schedule="<cron>"
 kubectl get jobs / cronjobs
 ```
+
+---
+
+> Lab files: [eigenbytes-devops-labs/04-kubernetes/workloads](https://github.com/anubhab-codes/eigenbytes-devops-labs/tree/main/04-kubernetes/workloads)

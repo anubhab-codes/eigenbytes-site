@@ -56,6 +56,10 @@ graph TD
 
 ## Hands-on
 
+:::info Lab files
+Fork [eigenbytes-devops-labs](https://github.com/anubhab-codes/eigenbytes-devops-labs) — manifests for this lab are in `04-kubernetes/reliability/`: `limits-demo.yaml` (triggers OOMKilled) and `liveness-demo.yaml`.
+:::
+
 ### Set resource limits on a pod
 
 ```bash
@@ -161,3 +165,7 @@ kubectl describe pod <name>                         # requests/limits and probe 
 kubectl get pods -w                                 # watch restarts
 kubectl describe pod <name> | grep -A 5 "Last State"  # why was pod killed?
 ```
+
+---
+
+> Lab files: [eigenbytes-devops-labs/04-kubernetes/reliability](https://github.com/anubhab-codes/eigenbytes-devops-labs/tree/main/04-kubernetes/reliability)

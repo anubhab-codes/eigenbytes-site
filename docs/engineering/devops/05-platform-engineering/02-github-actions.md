@@ -180,6 +180,10 @@ If `requirements.txt` has not changed, the cache is restored and `pip install` i
 
 ## Hands-on: set up a pipeline
 
+:::info Lab files
+Fork [eigenbytes-devops-labs](https://github.com/anubhab-codes/eigenbytes-devops-labs) — the CI workflow is already in `05-platform-engineering/.github/workflows/ci.yml`. Fork the repo and push any change to `03-containers/flask-app/` to see it trigger automatically.
+:::
+
 ```bash
 # 1. Create the workflow directory
 mkdir -p .github/workflows
@@ -242,3 +246,7 @@ ${{ github.ref_name }}       # branch name
 ${{ secrets.MY_SECRET }}     # secret value
 ${{ github.event_name }}     # trigger type
 ```
+
+---
+
+> Lab files: [eigenbytes-devops-labs/05-platform-engineering/.github/workflows](https://github.com/anubhab-codes/eigenbytes-devops-labs/tree/main/05-platform-engineering/.github/workflows)
