@@ -12,10 +12,10 @@ The goal is not to replace the docs. The goal is to let you remember what to typ
 
 | Cheatsheet | What it covers |
 |---|---|
-| [Linux](./01-linux) | Filesystem, processes, networking, system health |
-| [Git](./02-git) | Track changes, branches, sync, undo |
-| [Docker](./03-docker) | Images, containers, compose, cleanup |
-| [kubectl](./04-kubectl) | Query, apply, debug, rollout |
-| [Helm](./05-helm) | Repos, install, upgrade, inspect |
-| [Terraform](./06-terraform) | Init, plan, apply, state, workspaces |
-| [ArgoCD](./07-argocd) | Apps, sync, diff, rollback |
+| [Linux](./01-linux.md) | Filesystem, processes, networking, system health |
+| [Git](./02-git.md) | Track changes, branches, sync, undo |
+| [Docker](./03-docker.md) | Images, containers, compose, cleanup |
+| [kubectl](./04-kubectl.md) | Query, apply, debug, rollout |
+| [Helm](./05-helm.md) | Repos, install, upgrade, inspect |
+| [Terraform](./06-terraform.md) | Init, plan, apply, state, workspaces |
+| [ArgoCD](./07-argocd.md) | Apps, sync, diff, rollback |
